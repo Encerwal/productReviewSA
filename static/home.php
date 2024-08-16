@@ -17,7 +17,7 @@ include('header.php');
             <!-- Buttons Section -->
             <div class="button-container">
                 <a href="single_input.php" class="button">Single Input</a>
-                <a href="csv_file.php" class="button">CSV File</a>
+                <a href="upload.php" class="button">CSV File</a>
             </div>
         </div>
     </section>
