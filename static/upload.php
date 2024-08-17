@@ -51,15 +51,72 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Include the header
 include('header.php');
 ?>
+<style>
+/* Basic reset */
+body, h1, h2, h3, p, form, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <main>
-        <form action="upload.php" method="post" enctype="multipart/form-data">
-            <label for="file">Choose a CSV file to upload:</label>
-            <input type="file" name="file" id="file" accept=".csv" required>
-            <button type="submit">Upload</button>
-        </form>
-    </main>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
 
-    <?php include('footer.php'); ?>
-</body>
-</html>
+main {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label, input, button {
+    margin: 0.5rem 0;
+}
+
+input[type="file"] {
+    display: block;
+    margin: 1rem 0;
+}
+
+button {
+    background-color: #4CAF50; /* Green button */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+
+@media (max-width: 600px) {
+    header, footer {    
+        padding: 0.5rem;
+    }
+
+    button {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+}
+
+</style>
+<main>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <label for="file">Choose a CSV file to upload:</label>
+        <input type="file" name="file" id="file" accept=".csv" required>
+        <button type="submit">Upload</button>
+    </form>
+</main>
+
+<?php include('footer.php'); ?>
