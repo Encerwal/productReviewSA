@@ -19,6 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!-- Include Oswald font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap">
+
 <style>
     body {
         margin: 0;
@@ -41,18 +44,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     .input-wrapper {
         width: 100%;
+        text-align: center;
     }
 
     input[type="text"] {
         width: 100%;
         padding: 10px;
         font-size: 16px;
-        border: 1px solid #ccc;
+        border: 3px solid #2C3E50;
         border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     button {
-        margin-top: 10px;
+        margin-top: 10px; /* Space between the input field and button */
         padding: 10px 20px;
         font-size: 16px;
         border: none;
@@ -60,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         background-color: #007bff;
         color: white;
         cursor: pointer;
+        display: inline-block; /* Ensure it's not taking full width */
     }
 
     button:hover {
@@ -68,6 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     h1 {
         margin-bottom: 20px;
+        font-size: 36px; /* Adjust size as needed */
+        font-family: 'Oswald', sans-serif; /* Use Oswald font */
+        font-weight: bold; /* Make text bold */
     }
 
     /* Loader container styling */
@@ -89,8 +98,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .result {
-        margin-top: 20px;
+        position: absolute;
+        left: 50%;
+        top: 150px;
+        transform: translateX(-50%); /* Center horizontally */
+        text-align: center; 
     }
+
+    .note{
+        color: gray;
+        font-style: italic;
+    }
+
 
     /* Responsive styling for mobile devices */
     @media (max-width: 768px) {
@@ -109,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <main>
     <section>
         <div class="container">
-            <h1>Sentiment Analysis</h1>
+            <h1>Sentiment Analysis Single Input</h1>
             <p>Enter your text below for sentiment analysis:</p>
             <form id="sentiment-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-wrapper">
@@ -123,8 +142,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if (!empty($sentiment_result)): ?>
                             <h2>Analysis Result:</h2>
                             <p><strong>Input:</strong> <?php echo htmlspecialchars($input_text); ?></p>
-                            <p><strong>Predicted Sentiment Class:</strong> <?php echo htmlspecialchars($sentiment_result); ?></p>
+                            <p><strong>Predicted Sentiment Class:</strong> <?php
+                                if ($sentiment_result == 1) {
+                                    echo "Positive";
+                                } elseif ($sentiment_result == 0) {
+                                    echo "Negative";
+                                }
+                                ?>
+                            </p>               
+                        <!-- Display image based on sentiment result -->
+                            <?php if ($sentiment_result == 1): ?>
+                                <img src="images/happy.png" alt="Happy" style="width: 100px; height: auto;">
+                            <?php elseif ($sentiment_result == 0): ?>
+                                <img src="images/sad.png" alt="Sad" style="width: 100px; height: auto;">
+                            <?php endif; ?>
+                            <p class = "note">Note: Consider reading more feedbacks before buying a product!</p>
                         <?php endif; ?>
+                        
                     </div>
 
                     <!-- Loader -->
