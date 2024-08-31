@@ -91,37 +91,8 @@ include('header.php');
         grid-column: 3 / 4;
         grid-row: 2 / 3;
     }
-       /* Base Styles */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        line-height: 1.6;
-    }
 
-    header {
-        background-color: #ADD8E6; /* Light blue */
-        color: white;
-        padding: 1rem 2rem;
-        text-align: center;
-    }
-
-    main {
-        padding: 2rem;
-        max-width: 1600px;
-        margin: 0 auto;
-    }
-
-    h2 {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    div {
-        overflow-x: auto; /* Horizontal scroll on small screens */
-        margin-bottom: 2rem;
-    }
+   
 
     table {
         width: 100%;
@@ -138,29 +109,6 @@ include('header.php');
         background-color: #f2f2f2;
     }
 
-    a {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #ADD8E6; /* Light blue */
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        text-align: center;
-    }
-
-    a:hover {
-        background-color: #5F9EA0; /* Darker blue */
-    }
-
-    footer {
-        background-color: #ADD8E6; /* Light blue */
-        color: white;
-        text-align: center;
-        padding: 1rem 0;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-    }
 
     /* Grid Layout */
     .grid-container {
@@ -175,6 +123,8 @@ include('header.php');
         border: 1px solid black; /* For visual reference */
         padding: 20px;
         box-sizing: border-box;
+        overflow-x: auto; /* Horizontal scroll on small screens */
+        margin-bottom: 2rem;
     }
 
     .item1 {
@@ -251,19 +201,39 @@ include('header.php');
         }
     }
 </style>
-    <main>
-        <h2>Results</h2>
-        <div class="grid-container">
-            <div class="grid-item item1">
-                <!-- Ensure that HTML output from Python is not escaped -->
-                <?php echo $output; ?>
+
+<!-- Main Content of the Single Input Page -->
+<main class="main">
+
+<section id="hero" class="hero section">
+
+  <div class="container d-flex justify-content-center align-items-start" id="single-container">
+    <div class="row gy-4">
+        <div class="col-lg-12 d-flex flex-column justify-content-center text-center">
+            <h1>Results</h1>
+
+            <div class="grid-container">
+                <div class="grid-item item1">
+                    <!-- Ensure that HTML output from Python is not escaped -->
+                    <?php echo $output; ?>
+                </div>
+                <div class="grid-item item2">Content 2</div>
+                <div class="grid-item item3">Content 3</div>
+                <div class="grid-item item4">Content 4</div>
+                <div class="grid-item item5">Content 5</div>
             </div>
-            <div class="grid-item item2">Content 2</div>
-            <div class="grid-item item3">Content 3</div>
-            <div class="grid-item item4">Content 4</div>
-            <div class="grid-item item5">Content 5</div>
+
+            <a href="upload.php">Upload Another File</a>
         </div>
-        <a href="upload.php">Upload Another File</a>
+    </div>
+  </div>
+ 
+</section><!-- /Hero Section -->
+</main>
+
+    <main>
+        
+       
     </main>
 
     <?php include('footer.php'); ?>
