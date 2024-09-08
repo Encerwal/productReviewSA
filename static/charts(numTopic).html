@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Bar Chart with Rounded Bars and Data Labels</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> <!-- Include DataLabels plugin -->
+</head>
+<body>
+    <canvas id="numTopic" width="400" height="200"></canvas>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('numTopic').getContext('2d');
+
+        const data = {
+            labels: ['Quality', 'Price', 'Functionality', 'Others'],
+            datasets: [{
+                label: 'Number of Reviews',
+                data: [15, 18, 15, 14], // Example values
+                backgroundColor: [
+                    'rgba(31, 119, 180, 0.7)', // Color for Quality
+                    'rgba(255, 127, 14, 0.7)', // Color for Price
+                    'rgba(44, 160, 44, 0.7)', // Color for Functionality
+                    'rgba(214, 39, 40, 0.7)'  // Color for Others
+                ],
+                borderColor: [
+                    'rgba(31, 119, 180, 1)',
+                    'rgba(255, 127, 14, 1)',
+                    'rgba(44, 160, 44, 1)',
+                    'rgba(214, 39, 40, 1)'
+                ],
+                borderWidth: 1,
+                borderRadius: 10 // Rounded corners
+            }]
+        };
+
+        const options = {
+            indexAxis: 'y', // Makes the chart horizontal
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    
+                    grid: {
+                        display: false // Remove grid lines on the x-axis
+                    },
+                    ticks: {
+                        display: false // Display x-axis labels
+                    },
+                    border: {
+                        display: false // Remove x-axis line
+                    }
+                },
+                y: {
+           
+                    grid: {
+                        display: false // Remove grid lines on the y-axis
+                    },
+                    border: {
+                        display: false // Remove y-axis line
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Number of Reviews by Category',
+                    align: 'start', // Align title to the start (top-left)
+                    font: {
+                        size: 16, // Font size for the title
+                        weight: 'bold' // Font weight for the title
+                    },
+                    padding: {
+                        top: 10, // Padding from the top
+                        bottom: 10 // Padding from the bottom
+                    }
+                },
+                legend: {
+                    display: false // Disable the legend
+                },
+                datalabels: {
+                    color: '#ffffff', // White text color
+                    anchor: 'center', // Positions the label outside the bar
+                    align: 'center', // Aligns the label to the end of the bar
+                    font: {
+                        size: 20, // Font size for the data labels
+                        weight: 'bold' // Make the text bold
+                    },
+                    formatter: (value) => {
+                        return value; // Display the data value
+                    }
+                }
+            }
+        };
+
+        const numTopic = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options,
+            plugins: [ChartDataLabels] // Register the DataLabels plugin
+        });
+    });
+    </script>
+</body>
+</html>

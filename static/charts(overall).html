@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart with ECharts</title>
+    <!-- Include ECharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        /* Set size for the chart container */
+        #main {
+            width: 600px;
+            height: 400px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for the chart -->
+    <div id="main"></div>
+
+    <!-- Initialize and configure the chart -->
+    <script>
+        // Get the chart container
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        // Define chart options
+        option = {
+            title: {
+                text: 'Overall Sentiment',
+                left: 'center',
+                top: 'top',
+                textStyle: {
+                    fontSize: 20,
+                    fontWeight: 'bold'
+                }
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            series: [
+                {
+                    name: 'Sentiments',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 20,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    itemStyle: {
+                        color: function(params) {
+                            // Return color based on the data index
+                            return params.dataIndex === 0 ? 'rgba(40, 164, 40, 0.7)' : 'rgba(223, 21, 41, 0.7)';
+                        }
+                    },
+                    data: [
+                        { value: 1048, name: 'Positive' },
+                        { value: 735, name: 'Negative' }
+                    ]
+                }
+            ]
+        };
+
+        // Set the chart options
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

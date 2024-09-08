@@ -77,7 +77,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </form>
                 </div>
 
-                <!-- Your other HTML content -->
+                <div class="single-help-title col-lg-12 d-flex flex-column justify-content-center text-center">
+                  <h2>How Sentiment Analysis can help you</h2>
+                </div>
+                <div class="single-help-text col-lg-4 col-md-4 d-flex align-items-start">
+                  <i class="bi bi-check2-square me-2"></i>
+                  <p>Quickly identify negative feedback and respond immediately</p>
+                </div>
+                <div class="single-help-text col-lg-4 col-md-4 d-flex align-items-start">
+                  <i class="bi bi-check2-square me-2"></i>
+                  <p>Discover the topics that make your customers most satisfied or dissatisfied.</p>
+                </div>
+                <div class="single-help-text col-lg-4 col-md-4 d-flex align-items-start">
+                  <i class="bi bi-check2-square me-2"></i>
+                  <p>Detect Sentiments for hundreds of reviews instantly</p>
+                </div>
             </div>
         </div>
     </section>
