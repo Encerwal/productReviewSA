@@ -8,7 +8,92 @@ include('header.php');
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> <!-- Include DataLabels plugin -->
 <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <main class="main">
-    
+
+<style>
+        /* Your CSS styles for the table, buttons, etc. */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-left: 1px solid #ddd;  /* Removes vertical borders */
+            border-right: 1px solid #ddd;  /* Removes vertical borders */
+        }
+        th, td {
+            padding: 8px;
+            border-left: none; /* Removes vertical borders */
+            border-right: none; /* Removes vertical borders */
+            border-top: 1px solid #ddd; /* Optional: Keep the horizontal borders */
+            border-bottom: 1px solid #ddd; /* Optional: Keep the horizontal borders */
+            text-align: left;
+        }
+
+        th {
+         background-color: #f2f2f2;
+        }
+      
+        th:nth-child(1), td:nth-child(1) {
+            width: 60%;
+        }
+
+        th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3) {
+            width: 20%; 
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .pagination button {
+            padding: 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            background: none;
+            border: none; 
+            font-size: 1rem; 
+            color: #4154f1; 
+        }
+
+        .pagination button:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #page-numbers {
+            font-size: 1rem; 
+            margin: 0 10px; /* Adjust margin around page numbers */
+        }
+
+        /* Add rounded background with white color */
+        #botleft, #topleft, #topright, #botright {
+            background-color: white;
+            padding: 0px; /* Adds spacing inside the div */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            padding:15px;
+            margin: 0px auto 30px auto; /* Adjust margins to center */
+            
+            display: flex;
+            justify-content: center; /* Horizontally centers the canvas */
+            align-items: center; /* Vertically centers the canvas */
+        }
+        
+        #csvTable{
+            background-color: white;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            margin-right:10px;
+            margin-left:10px;
+            margin-bottom:5px;
+            padding: 20px; /* Adds spacing inside the div */
+        }
+
+        #allsmall{
+            padding-left:25px;
+        }
+    </style>
+
 <section id="hero" class="hero section">
     <div class="container2 d-flex justify-content-center align-items-start" id="csv-container">
         <div class="testa row gy-4">  
@@ -19,12 +104,13 @@ include('header.php');
                     <h1 id='csv-title'>Analysis Results</h1>
                 </div>
                 <!-- Large Box on the Left -->
-                <div class="col-lg-5" id="csvTable">
+                <div class="col-lg-2" id="csvTable">
                 
                 <?php
                     // Decode the JSON data
                     $data = json_decode($_SESSION['file_data'], true);
                     $data = json_decode($data, true);
+                    
                     $qualPos = 0;
                     $qualNeg = 0;
                     $pricePos = 0;
@@ -33,19 +119,27 @@ include('header.php');
                     $funcNeg = 0;
                     $otherPos = 0;
                     $otherNeg = 0;
-
+                
                     // Check if decoding was successful
                     if (json_last_error() === JSON_ERROR_NONE) {
                         if (is_array($data)) {
-                            echo "<table border='1'>";
-                            echo "<tr><th>Text</th><th>Predicted Sentiment</th> <th>Category</th></tr>";
+                            echo " 
+                            <div class='pagination'>
+                                <button id='prev-btn' disabled><i class='bi bi-chevron-left'></i></button>
+                                <p class='page-numbers' id='page-numbers'></p>
+                                <button id='next-btn'><i class='bi bi-chevron-right'></i></button>
+                            </div>";
 
+                            //Display the table
+                            echo "<table id='data-table' border='1'>";
+                            echo "<tr><th>Text</th><th>Sentiment</th> <th>Category</th></tr>";
+                            
                             foreach ($data as $row) {
                                 echo "<tr>";
                                 echo "<td>" . htmlspecialchars($row['text']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['sentiment']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['category']) . "</td>";
-                                echo "</tr>";
+                                echo "</tr>"; 
 
                                 if ($row['sentiment'] == 'Positive' && $row['category'] == 'quality'){
                                     $qualPos += 1;
@@ -75,7 +169,7 @@ include('header.php');
 
                             
                             echo "</table>";
-
+                            
                             $overallNeg = $qualNeg + $funcNeg + $otherNeg + $priceNeg;
                             $overallPos = $qualPos + $funcPos + $otherPos + $pricePos;
                             $funcAll = $funcPos + $funcNeg;
@@ -148,22 +242,25 @@ include('header.php');
                             }
 
                         } else {
-                        
+                            $hasDateColumn = false;
+                            $correctDateFormat = false; 
                             echo "Error: Data is not an array.";
                         }
                     } else {
+                        $hasDateColumn = false;
+                        $correctDateFormat = false; 
                         echo "Error: Invalid JSON data. " . json_last_error_msg();
                     }
 
-                    // Clear session data
-                    unset($_SESSION['file_data']);
                 } else {
+                    $hasDateColumn = false;
+                    $correctDateFormat = false; 
                     echo "Error: No file data found.";
                 }
                 ?>
             </div>
             <!-- Small Boxes on the Right -->
-            <div class="col-md-6" >
+            <div class="col-md-6" id='allsmall' >
                
                 <div class="row">
                      <!-- Top Left-->
@@ -171,28 +268,26 @@ include('header.php');
                         <canvas id="numTopic" width="100%" height="100%"></canvas>
                     </div>
                     <!-- Top Right -->
-                    <div class="col-lg-6 col-md-6" id='topright'>
+                    <div class="col-lg-6 col-md-6" id='topright' >
                         <canvas id="sentimentChart" width="100%" height="100%"></canvas>
                     </div>
                 </div>
                 <div class="row">
                      <!-- Bottom Left-->
                     <div class="col-lg-6 col-md-6" id='botleft'> 
-                        <div id="botleftcanva" style="width: 400px; height: 400px;"></div>
+                        <div id="botleftcanva" style="width: 350px; height: 350px; padding-top:20px;"></div>
                     </div>
                     <!-- Bottom Right-->
                     <div class="col-lg-6 col-md-6" id='botright'>
                         <?php if (!$hasDateColumn): ?>
                             <p>No data available</p>
                         <?php elseif (!$correctDateFormat): ?>
-                            <p>Incorrect Time Format</p>
+                            <p>Incorrect Time Format (Should be: mm/dd/yyyy)</p>
                         <?php else: ?>
                             <canvas id="lineChart" width="100%" height="100%"></canvas>
                         <?php endif; ?>
                     </div>
                 </div>
-            
-           
         </div>
     </div>
 </section>
@@ -418,6 +513,13 @@ include('header.php');
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                orient: 'horizontal', // Arrange legend horizontally
+                left: 'center', // Center the legend horizontally
+                bottom: '0%', // Position the legend at the bottom
+                data: [ 'Negative', 'Positive'] // Names in the legend
+            },
+          
             series: [
                 {
                     name: 'Sentiments',
@@ -489,7 +591,8 @@ include('header.php');
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: false  // Disable the legend
+                            display: true,
+                            position:'bottom'
                         },
                         title: {
                             display: true,
@@ -527,16 +630,16 @@ include('header.php');
             const element5 = document.getElementById('botright');
             if (window.innerWidth < 1600) { // Apply new class name for small screens
                 element.className = 'col-lg-12';
-                element2.className = 'col-lg-12 col-md-12'; 
-                element3.className = 'col-lg-12 col-md-12'; 
-                element4.className = 'col-lg-12 col-md-12'; 
-                element5.className = 'col-lg-12 col-md-12'; 
+                element2.className = 'col-lg-10 col-md-10'; 
+                element3.className = 'col-lg-10 col-md-10'; 
+                element4.className = 'col-lg-10 col-md-10'; 
+                element5.className = 'col-lg-10 col-md-10'; 
             } else { // Apply default class name for larger screens
                 element.className = 'col-lg-5'; 
-                element2.className = 'col-lg-6 col-md-6'; 
-                element3.className = 'col-lg-6 col-md-6'; 
-                element4.className = 'col-lg-6 col-md-6'; 
-                element5.className = 'col-lg-6 col-md-6'; 
+                element2.className = 'col-lg-5 col-md-6'; 
+                element3.className = 'col-lg-5 col-md-6'; 
+                element4.className = 'col-lg-5 col-md-6'; 
+                element5.className = 'col-lg-5 col-md-6'; 
             }
         }
 
@@ -545,6 +648,87 @@ include('header.php');
 
         // Check on window resize
         window.addEventListener('resize', updateClassBasedOnResolution);
+
+        //pagination function
+        let currentPage = 1;
+        let totalPages = 1;
+        const rowsPerPage = 25;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageNumbers = document.getElementById('page-numbers');
+        const table = document.getElementById('data-table');
+
+        function fetchData(page) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'get_data.php?page=' + page, true);
+            xhr.onload = function() {
+                if (this.status === 200) {
+                    const response = JSON.parse(this.responseText);
+                    if (response.error) {
+                        console.error(response.error);
+                        return;
+                    }
+                    updateTable(response.data);
+                    currentPage = response.current_page;
+                    totalPages = response.total_pages;
+                    updatePaginationButtons();
+                    updatePageNumbers();
+                } else {
+                    console.error('Error fetching data:', this.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                console.error('AJAX request failed');
+            };
+            xhr.send();
+        }
+
+        function updateTable(data) {
+            table.innerHTML = `<tr>
+                <th>Text</th>
+                <th>Sentiment</th>
+                <th>Category</th>
+            </tr>`;
+
+            if (data.length === 0) {
+                table.innerHTML += '<tr><td colspan="3">No data available</td></tr>';
+            } else {
+                data.forEach(row => {
+                    const newRow = table.insertRow();
+                    newRow.innerHTML = `
+                        <td>${row.text}</td>
+                        <td>${row.sentiment}</td>
+                        <td>${row.category}</td>
+                    `;
+                });
+            }
+        }
+
+        function updatePaginationButtons() {
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        function updatePageNumbers() {
+            pageNumbers.innerHTML = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchData(currentPage);
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                fetchData(currentPage);
+            }
+        });
+
+        // Load initial data for page 1
+        fetchData(currentPage);
 </script>
 <?php
 include('footer.php');

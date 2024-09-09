@@ -40,16 +40,10 @@ include('header.php');
           <div class="col-lg-6 d-flex flex-column justify-content-center">
             <div class="content">
               <h3>Who We Are</h3>
-              <h2>Expedita voluptas omnis cupiditate totam eveniet nobis sint iste. Dolores est repellat corrupti reprehenderit.</h2>
+              <h2>We are a dedicated team of students from Holy Angel University, focused on improving the online shopping experience through sentiment analysis of e-commerce product reviews.</h2>
               <p>
-                Quisquam vel ut sint cum eos hic dolores aperiam. Sed deserunt et. Inventore et et dolor consequatur itaque ut voluptate sed et. Magnam nam ipsum tenetur suscipit voluptatum nam et est corrupti.
+                Using the XLM-RoBERTa algorithm, we analyze and classify customer feedback to provide valuable insights, helping selers make good business decisions. Our mission is to bring transparency and trust to the digital marketplace.
               </p>
-              <div class="text-center text-lg-start">
-                <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
-                  <span>Read More</span>
-                  <i class="bi bi-arrow-right"></i>
-                </a>
-              </div>
             </div>
           </div>
           <div class="col-lg-6 d-flex align-items-center">
@@ -78,7 +72,7 @@ include('header.php');
                 <img src="assets/img/values-1.png" class="img-fluid" alt="" >
               </a>
               <h3>Single Input</h3>
-              <p>Eum ad dolor et. Autem aut fugiat debitis voluptatem consequuntur sit. Et veritatis id.</p>
+              <p>Quickly analyze the sentiment of individual product reviews by typing or pasting the text. Get instant, accurate sentiment feedback with our advanced tool.</p>
             </div>
           </div><!-- End Card Item -->
 
@@ -88,7 +82,7 @@ include('header.php');
                 <img src="assets/img/values-2.png" class="img-fluid" alt="">
               </a>
               <h3>CSV File</h3>
-              <p>Repudiandae amet nihil natus in distinctio suscipit id. Doloremque ducimus ea sit non.</p>
+              <p>Upload a CSV file to analyze sentiment across multiple reviews at once. Ideal for bulk processing, this service provides sentiment results for each review efficiently.</p>
             </div>
           </div><!-- End Card Item -->
         </div>
@@ -119,42 +113,42 @@ include('header.php');
               <div class="col-md-6" >
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Eos aspernatur rem</h3>
+                  <h3>Both English and Filipino</h3>
                 </div>
               </div><!-- End Feature Item -->
 
               <div class="col-md-6" >
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Facilis neque ipsa</h3>
+                  <h3>Bulk Sentiment Analysis</h3>
                 </div>
               </div><!-- End Feature Item -->
 
               <div class="col-md-6" >
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Volup amet volupt</h3>
+                  <h3>Easy Navigation</h3>
                 </div>
               </div><!-- End Feature Item -->
 
               <div class="col-md-6" >
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Rerum omnis sint</h3>
+                  <h3>User-Friendly Interface</h3>
                 </div>
               </div><!-- End Feature Item -->
 
               <div class="col-md-6" >
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Alias possimus</h3>
+                  <h3>Results Summary</h3>
                 </div>
               </div><!-- End Feature Item -->
 
               <div class="col-md-6" >
                 <div class="feature-box d-flex align-items-center">
                   <i class="bi bi-check"></i>
-                  <h3>Repellendus molli</h3>
+                  <h3>Export Results</h3>
                 </div>
               </div><!-- End Feature Item -->
             </div>
@@ -271,8 +265,8 @@ include('header.php');
               </div>
               <div class="member-info">
                 <h4>Patrick Gomez</h4>
-                <span>Example Role</span>
-                <p>test aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut. Ipsum exercitationem iure minima enim corporis et voluptate.</p>
+                <span>BS Computer Science</span>
+                <p>Unlock the power of customer opinions and drive your business forward. Our sentiment analysis tools provide you with clear, actionable insights from product reviews, helping you make informed decisions and exceed customer expectations.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -288,8 +282,8 @@ include('header.php');
               </div>
               <div class="member-info">
                 <h4>Sofia Yunun</h4>
-                <span>Example Role</span>
-                <p>Quo esse repellendus quia id. Est eum et accusantium pariatur fugit nihil minima suscipit corporis. Voluptate sed quas reiciendis animi neque sapiente.</p>
+                <span>BS Computer Science</span>
+                <p>Don’t let valuable customer feedback go untapped. With our advanced sentiment analysis, turn reviews into strategic advantages. Identify trends, understand customer needs, and elevate your product offerings to new heights.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -305,8 +299,8 @@ include('header.php');
               </div>
               <div class="member-info">
                 <h4>Rhonee Tolentino</h4>
-                <span>Example Role</span>
-                <p>Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt. Voluptates enim aut architecto porro aspernatur molestiae modi.</p>
+                <span>BS Computer Science</span>
+                <p>Don’t let valuable customer feedback go untapped. With our advanced sentiment analysis, turn reviews into strategic advantages. Identify trends, understand customer needs, and elevate your product offerings to new heights.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -322,8 +316,8 @@ include('header.php');
               </div>
               <div class="member-info"> 
                 <h4>Sebastian Visperas</h4>
-                <span>Example Role</span>
-                <p>Rerum voluptate non adipisci animi distinctio et deserunt amet voluptas. Quia aut aliquid doloremque ut possimus ipsum officia.</p>
+                <span>BS Computer Science</span>
+                <p>In the fast-paced e-commerce world, staying ahead is key. Our sentiment analysis services equip you with precise data to understand market sentiments, allowing you to adapt quickly and stay competitive in your industry.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
