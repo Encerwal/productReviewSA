@@ -9,9 +9,8 @@
   
     <!-- Favicons -->
     <!-- WEBPAGE ICON -->
-    <link href="" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-  
+    <link href="assets/img/logo.png" rel="icon">
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
@@ -74,7 +73,7 @@
           </div>
         </nav>
   
-        <a class="btn-getstarted flex-md-shrink-0" href="home.php#about">Get Started</a>
+        <a class="btn-getstarted flex-md-shrink-0" href="home.php#values">Get Started</a>
   
       </div>
   

@@ -1,10 +1,44 @@
 <?php
-session_start(); // Start the session
+session_start();
 
 // Check if the form was submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check if a file was uploaded without errors
-    if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
+    if ($_POST['action'] == 'sample'){
+        
+        $sampleFile = 'uploads/TestReviewsWithDates.csv';
+        // Manually simulate $_FILES handling
+        $file_name = basename($sampleFile);
+        $file_tmp = $sampleFile;
+        $file_type  = 'text/csv';
+        $file['size'] = filesize($sampleFile);
+        $file['error'] = 0;
+
+        // cURL to send the file to the Flask server
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://localhost:5000/process_csv"); // Flask server endpoint
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        // Attach file
+        curl_setopt($ch, CURLOPT_POSTFIELDS, [
+            'file' => new CURLFile($file_tmp, $file_type, $file_name)
+        ]);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+
+        curl_close($ch);
+
+        // Save the JSON response to session or temporary file
+        $_SESSION['file_data'] = $response;
+
+        // Redirect to result.php
+        header("Location: result.php");
+        exit();
+    }else if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
         $file_name = $_FILES['file']['name'];
         $file_tmp = $_FILES['file']['tmp_name'];
         $file_size = $_FILES['file']['size'];
@@ -52,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: result.php");
         exit();
     } else {
+        
         echo "Error: " . $_FILES['file']['error'];
     }
 }
@@ -65,15 +100,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row gy-4">
                 <div class="col-lg-12 d-flex flex-column justify-content-center text-center">
                     <h1>Sentiment Analysis Checker</h1>
-                    <p>Use Sentiment Analysis to automatically classify opinions as positive and negative</p>
-
-                    <form id="file-upload-form" action="upload.php" method="post" enctype="multipart/form-data">
+                      <form id="file-upload-form" action="upload.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="action" id="form-action" value="">
+                        <p>Upload a file for Sentiment Analysis or use a <button class="btn btn-link" type="submit" id="sample-link">sample file</button> </p>
+                        
                         <!-- Drag and Drop File Upload Area -->
                         <div id="drop-area" class="drop-area">
                             <p>Drag and drop a CSV file here, or click this area to browse files</p>
                             <input type="file" name="file" id="file" accept=".csv" required hidden>
                         </div>
-                        <button class="btn-get-started" type="submit" id="btn-analyze">Analyze File</button>
+                        <button class="btn-get-started" type="submit" id="btn-analyze" name="action" value='upload'>Analyze File</button>
                     </form>
                 </div>
 
@@ -132,8 +168,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     const dt = e.dataTransfer;
     const files = dt.files;
 
-    fileInput.files = files; // Update file input
-    updateDropAreaText(files[0].name); // Update drop area text with the file name
+    fileInput.files = files;
+    updateDropAreaText(files[0].name); 
   }
 
   // Add click event to open file dialog
@@ -152,6 +188,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   function updateDropAreaText(filename) {
     dropArea.querySelector('p').textContent = `File Selected: ${filename}`;
   }
+
+  // For sample button
+  document.getElementById('sample-link').addEventListener('click', function() {
+    document.getElementById('form-action').value = 'sample';
+    document.getElementById('file-upload-form').submit();
+  });
+
 </script>
 
 <style>

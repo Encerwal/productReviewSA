@@ -4,8 +4,8 @@
 <div class="container footer-top">
   <div class="row gy-4">
     <div class="col-lg-4 col-md-6 footer-about">
-      <a href="index.html" class="d-flex align-items-center">
-        <span class="sitename">FlexStart</span>
+      <a href="home.php" class="d-flex align-items-center">
+        <span class="sitename">EmotiCart</span>
       </a>
       <div class="footer-contact pt-3">
         <p>Holy Angel University</p>
@@ -37,7 +37,6 @@
       <p>Follow our thesis work on our Github page.</p>
       <div class="social-links d-flex">
         <a href="https://github.com/Encerwal" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
       </div>
     </div>
 

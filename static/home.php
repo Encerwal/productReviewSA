@@ -19,7 +19,7 @@ include('header.php');
               analysis helps businesses understand customer sentiments, improve products, and enhance the overall shopping experience.
             </p>
             <div class="d-flex flex-column flex-md-row" data-aos="fade-up" data-aos-delay="200">
-              <a href="#about" class="btn-get-started">Get Started <i class="bi bi-arrow-right"></i></a>
+              <a href="#values" class="btn-get-started">Get Started <i class="bi bi-arrow-right"></i></a>
               
             </div>
           </div>
@@ -175,25 +175,25 @@ include('header.php');
             <div class="faq-container">
 
               <div class="faq-item">
-                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
+                <h3>What is the purpose of this website?</h3>
                 <div class="faq-content">
-                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
+                  <p>We provide sentiment analysis tools that analyze product reviews from e-commerce platforms. The analysis helps sellers understand customer opinions, improve their products, and enhance the overall shopping experience.</p>
                 </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
 
               <div class="faq-item">
-                <h3>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
+                <h3>How does the sentiment analysis work?</h3>
                 <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                  <p>Our system uses the XLM-RoBERTa model to classify comments as positive or negative. It processes customer feedback in both English and Filipino to give you actionable insights.</p>
                 </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
 
               <div class="faq-item">
-                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+                <h3>What types of comments can be analyzed?</h3>
                 <div class="faq-content">
-                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
+                  <p>You can analyze individual comments through our single input feature or upload a CSV file for bulk sentiment analysis of multiple reviews.</p>
                 </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
@@ -207,25 +207,25 @@ include('header.php');
             <div class="faq-container">
 
               <div class="faq-item">
-                <h3>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</h3>
+                <h3>What file format should I use for bulk analysis?</h3>
                 <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                  <p>You should upload a CSV file when performing bulk sentiment analysis. This will provide visualizations or summaries to help you understand the overall sentiment trends in your data.</p>
                 </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
 
               <div class="faq-item">
-                <h3>Tempus quam pellentesque nec nam aliquam sem et tortor consequat?</h3>
+                <h3>Why is sentiment analysis important for my business?</h3>
                 <div class="faq-content">
-                  <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in</p>
+                  <p>Understanding customer sentiment allows you to identify trends, improve products, and offer better service, ultimately helping you make more informed business decisions.</p>
                 </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
 
               <div class="faq-item">
-                <h3>Perspiciatis quod quo quos nulla quo illum ullam?</h3>
+                <h3>Can I analyze reviews in different languages?</h3>
                 <div class="faq-content">
-                  <p>Enim ea facilis quaerat voluptas quidem et dolorem. Quis et consequatur non sed in suscipit sequi. Distinctio ipsam dolore et.</p>
+                  <p>Yes, our tool supports both English and Filipino for sentiment analysis.</p>
                 </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
@@ -251,16 +251,14 @@ include('header.php');
       </div><!-- End Section Title -->
 
       <div class="container">
-
         <div class="row gy-4">
-
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
               <div class="member-img">
-                <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
+                <img src="assets/img/team/pat.jpg" class="img-fluid" alt="">
                 <div class="social">
                   <a href="https://github.com/Encerwal" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
-                  <a href=""><i class="bi bi-linkedin" target="_blank" rel="noopener noreferrer"></i></a>
+                  <a href="https://www.linkedin.com/in/patrick-gomez-284218329/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin" ></i></a>
                 </div>
               </div>
               <div class="member-info">
@@ -274,10 +272,10 @@ include('header.php');
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
               <div class="member-img">
-                <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
+                <img src="assets/img/team/sof.jpg" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
-                  <a href="" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+                  <a href="https://github.com/SopyJoy" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+                  <a href="https://www.linkedin.com/in/sofia-joy-yunun-7a7b38203/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
               <div class="member-info">
@@ -291,10 +289,10 @@ include('header.php');
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
               <div class="member-img">
-                <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
+                <img src="assets/img/team/rho.jpg" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
-                  <a href="" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+                  <a href="https://github.com/Sariel15" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+                  <a href="https://www.linkedin.com/in/rhonee-tolentino-93586827a/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
               <div class="member-info">
@@ -308,10 +306,10 @@ include('header.php');
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
               <div class="member-img">
-                <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
+                <img src="assets/img/team/basti.jpg" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
-                  <a href="" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+                  <a href="https://github.com/JSVisperas" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+                  <a href="https://www.linkedin.com/in/jann-sebastian-visperas-b15086328/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
               <div class="member-info"> 

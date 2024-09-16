@@ -52,21 +52,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 include('header.php');
 ?>
 
-
 <main>
 <section id="hero" class="hero section">
-
 <div class="container d-flex justify-content-center align-items-start" id="single-container">
   <div class="row gy-4">
     <div class="col-lg-12 d-flex flex-column justify-content-center text-center">
         <h1>Sentiment Analysis Checker</h1>
         <p>Use Sentiment Analysis to automatically classify opinions as positive and negative</p>
-        <form action="upload.php" method="post" enctype="multipart/form-data">
-            <label for="file">Choose a CSV file to upload:</label>
-            <input type="file" name="file" id="file" accept=".csv" required>
-            <div class="d-flex flex-column flex-md-row justify-content-center">
-                <button class="btn-get-started" type="submit" id="btn-analyze"> Analyze File</button>
+
+        <form id="file-upload-form" action="upload.php" method="post" enctype="multipart/form-data">
+            <!-- Drag and Drop File Upload Area -->
+            <div id="drop-area" class="drop-area">
+                    <p>Drag and drop a CSV file here, or click this area to browse files</p>
+                    <input type="file" name="file" id="file" accept=".csv" required hidden>
             </div>
+            <button class="btn-get-started" type="submit" id="btn-analyze">Analyze File</button>
         </form>
     </div>
 
@@ -94,3 +94,73 @@ include('header.php');
 </main>
 
 <?php include('footer.php'); ?>
+
+<!-- JavaScript to handle Drag and Drop -->
+<script>
+  const dropArea = document.getElementById('drop-area');
+  const fileInput = document.getElementById('file');
+
+  // Prevent default drag behaviors
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false);
+    document.body.addEventListener(eventName, preventDefaults, false);
+  });
+
+  // Highlight drop area when item is dragged over it
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'), false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'), false);
+  });
+
+  // Handle dropped files
+  dropArea.addEventListener('drop', handleDrop, false);
+
+  // Prevent default behavior for drag and drop events
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  // Handle file drop
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+
+    fileInput.files = files; // Update file input
+    updateDropAreaText(files[0].name); // Update drop area text with the file name
+  }
+
+  // Add click event to open file dialog
+  dropArea.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  // Update drop area text on file select
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) {
+      updateDropAreaText(fileInput.files[0].name);
+    }
+  });
+
+  // Function to update drop area text
+  function updateDropAreaText(filename) {
+    dropArea.querySelector('p').textContent = `File Selected: ${filename}`;
+  }
+</script>
+
+<style>
+  .drop-area {
+    border: 2px dashed #ddd;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .drop-area.highlight {
+    border-color: #06c;
+  }
+</style>

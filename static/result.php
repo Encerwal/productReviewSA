@@ -5,24 +5,30 @@ include('header.php');
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> <!-- Include DataLabels plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> 
 <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<!-- Download pdf script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+<!-- Download csv script -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+
 <main class="main">
 
 <style>
-        /* Your CSS styles for the table, buttons, etc. */
         table {
             width: 100%;
             border-collapse: collapse;
-            border-left: 1px solid #ddd;  /* Removes vertical borders */
-            border-right: 1px solid #ddd;  /* Removes vertical borders */
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd; 
         }
         th, td {
             padding: 8px;
-            border-left: none; /* Removes vertical borders */
-            border-right: none; /* Removes vertical borders */
-            border-top: 1px solid #ddd; /* Optional: Keep the horizontal borders */
-            border-bottom: 1px solid #ddd; /* Optional: Keep the horizontal borders */
+            border-left: none;
+            border-right: none;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
             text-align: left;
         }
 
@@ -62,31 +68,31 @@ include('header.php');
 
         #page-numbers {
             font-size: 1rem; 
-            margin: 0 10px; /* Adjust margin around page numbers */
+            margin: 0 10px;
         }
 
-        /* Add rounded background with white color */
+   
         #botleft, #topleft, #topright, #botright {
             background-color: white;
-            padding: 0px; /* Adds spacing inside the div */
-            border-radius: 10px; /* Rounded corners */
+            padding: 0px;
+            border-radius: 10px; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
             padding:15px;
-            margin: 0px auto 30px auto; /* Adjust margins to center */
+            margin: 0px auto 30px auto; 
             
             display: flex;
-            justify-content: center; /* Horizontally centers the canvas */
-            align-items: center; /* Vertically centers the canvas */
+            justify-content: center; 
+            align-items: center;
         }
         
         #csvTable{
             background-color: white;
-            border-radius: 10px; /* Rounded corners */
+            border-radius: 10px; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
             margin-right:10px;
             margin-left:10px;
             margin-bottom:5px;
-            padding: 20px; /* Adds spacing inside the div */
+            padding: 20px; 
         }
 
         #allsmall{
@@ -209,7 +215,7 @@ include('header.php');
                                     } else {
                                         // If the date format is incorrect, set the flag to false
                                         $correctDateFormat = false;
-                                        break;  // Exit the loop
+                                        break; 
                                     }
                                 }
 
@@ -261,7 +267,6 @@ include('header.php');
             </div>
             <!-- Small Boxes on the Right -->
             <div class="col-md-6" id='allsmall' >
-               
                 <div class="row">
                      <!-- Top Left-->
                     <div class="col-lg-6 col-md-6" id='topleft'>
@@ -288,6 +293,12 @@ include('header.php');
                         <?php endif; ?>
                     </div>
                 </div>
+                <div class="download-container">
+                    <a href="upload.php" class="btn-get-started">Upload Another</a>
+                    <button class="btn-get-started" id="downloadPdf">Download PDF</button>
+                    <button class="btn-get-started" id="downloadCsv">Download CSV</button>
+                </div>
+            </div>  
         </div>
     </div>
 </section>
@@ -309,6 +320,15 @@ include('header.php');
     var otherAll='<?=$otherAll?>';
     var overallPos='<?=$overallPos?>';
     var overallNeg='<?=$overallNeg?>';
+                            
+    // Get the current date
+    var currentDate = new Date();
+    var day = String(currentDate.getDate()).padStart(2, '0');
+    var month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    var year = currentDate.getFullYear();
+
+    // Format the date as DD-MM-YYYY (you can change the format if needed)
+    var formattedDate = day + '-' + month + '-' + year;
 
     // By Number of each Category
     document.addEventListener("DOMContentLoaded", function() {
@@ -320,10 +340,10 @@ include('header.php');
                 label: 'Number of Reviews',
                 data: [qualAll, priceAll, funcAll, otherAll],
                 backgroundColor: [
-                    'rgba(31, 119, 180, 0.7)', // Color for Quality
-                    'rgba(255, 127, 14, 0.7)', // Color for Price
-                    'rgba(44, 160, 44, 0.7)', // Color for Functionality
-                    'rgba(214, 39, 40, 0.7)'  // Color for Others
+                    'rgba(31, 119, 180, 0.7)',
+                    'rgba(255, 127, 14, 0.7)',
+                    'rgba(44, 160, 44, 0.7)', 
+                    'rgba(214, 39, 40, 0.7)'
                 ],
                 borderColor: [
                     'rgba(31, 119, 180, 1)',
@@ -332,33 +352,33 @@ include('header.php');
                     'rgba(214, 39, 40, 1)'
                 ],
                 borderWidth: 1,
-                borderRadius: 10 // Rounded corners
+                borderRadius: 10
             }]
         };
 
         const options = {
-            indexAxis: 'y', // Makes the chart horizontal
+            indexAxis: 'y',
             scales: {
                 x: {
                     beginAtZero: true,
                     
                     grid: {
-                        display: false // Remove grid lines on the x-axis
+                        display: false 
                     },
                     ticks: {
-                        display: false // Display x-axis labels
+                        display: false
                     },
                     border: {
-                        display: false // Remove x-axis line
+                        display: false 
                     }
                 },
                 y: {
            
                     grid: {
-                        display: false // Remove grid lines on the y-axis
+                        display: false
                     },
                     border: {
-                        display: false // Remove y-axis line
+                        display: false
                     }
                 }
             },
@@ -366,29 +386,29 @@ include('header.php');
                 title: {
                     display: true,
                     text: 'Number of Reviews by Category',
-                    align: 'start', // Align title to the start (top-left)
+                    color: '#444444',
                     font: {
-                        size: 16, // Font size for the title
-                        weight: 'bold' // Font weight for the title
+                        size: 16, 
+                        weight: 'bold' 
                     },
                     padding: {
-                        top: 10, // Padding from the top
-                        bottom: 10 // Padding from the bottom
+                        top: 10,
+                        bottom: 10 
                     }
                 },
                 legend: {
-                    display: false // Disable the legend
+                    display: false 
                 },
                 datalabels: {
-                    color: '#ffffff', // White text color
-                    anchor: 'center', // Positions the label outside the bar
-                    align: 'center', // Aligns the label to the end of the bar
+                    color: '#ffffff', 
+                    anchor: 'center',
+                    align: 'center',
                     font: {
-                        size: 20, // Font size for the data labels
-                        weight: 'bold' // Make the text bold
+                        size: 20,
+                        weight: 'bold' 
                     },
                     formatter: (value) => {
-                        return value; // Display the data value
+                        return value;
                     }
                 }
             }
@@ -458,7 +478,7 @@ include('header.php');
                 title: {
                     display: true,
                     text: 'Sentiment by Topic',
-                    align: 'start', 
+                    color: '#444444',
                     font: {
                         size: 16, 
                         weight: 'bold' 
@@ -504,9 +524,10 @@ include('header.php');
             title: {
                 text: 'Overall Sentiment',
                 left: 'center',
+                color: '#444444',
                 top: 'top',
                 textStyle: {
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: 'bold'
                 }
             },
@@ -514,10 +535,10 @@ include('header.php');
                 trigger: 'item'
             },
             legend: {
-                orient: 'horizontal', // Arrange legend horizontally
-                left: 'center', // Center the legend horizontally
-                bottom: '0%', // Position the legend at the bottom
-                data: [ 'Negative', 'Positive'] // Names in the legend
+                orient: 'horizontal',
+                left: 'center', 
+                bottom: '0%',
+                data: [ 'Negative', 'Positive']
             },
           
             series: [
@@ -569,19 +590,19 @@ include('header.php');
             const sentimentChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: months,  // X-axis labels (months)
+                    labels: months,
                     datasets: [
                         {
                             label: 'Positive Sentiment',
-                            data: positiveData,  // Data points for positive sentiment
-                            borderColor: 'rgba(75, 192, 192, 1)',  // Line color
+                            data: positiveData,
+                            borderColor: 'rgba(75, 192, 192, 1)',
                             fill: false,
                             tension: 0.1
                         },
                         {
                             label: 'Negative Sentiment',
-                            data: negativeData,  // Data points for negative sentiment
-                            borderColor: 'rgba(255, 99, 132, 1)',  // Line color
+                            data: negativeData,
+                            borderColor: 'rgba(255, 99, 132, 1)',
                             fill: false,
                             tension: 0.1
                         }
@@ -596,7 +617,13 @@ include('header.php');
                         },
                         title: {
                             display: true,
-                            text: 'Monthly Sentiment Analysis'
+                            text: 'Monthly Sentiment Analysis',
+                            color: '#444444',
+                            font: {
+                                size: 16, 
+                                weight: 'bold' 
+                            },
+                            
                         }
                     },
                     scales: {
@@ -628,13 +655,13 @@ include('header.php');
             const element3 = document.getElementById('topright');
             const element4 = document.getElementById('botleft');
             const element5 = document.getElementById('botright');
-            if (window.innerWidth < 1600) { // Apply new class name for small screens
+            if (window.innerWidth < 1600) {
                 element.className = 'col-lg-12';
                 element2.className = 'col-lg-10 col-md-10'; 
                 element3.className = 'col-lg-10 col-md-10'; 
                 element4.className = 'col-lg-10 col-md-10'; 
                 element5.className = 'col-lg-10 col-md-10'; 
-            } else { // Apply default class name for larger screens
+            } else {
                 element.className = 'col-lg-5'; 
                 element2.className = 'col-lg-5 col-md-6'; 
                 element3.className = 'col-lg-5 col-md-6'; 
@@ -729,6 +756,195 @@ include('header.php');
 
         // Load initial data for page 1
         fetchData(currentPage);
+
+    // Download PDF Function
+    var data = <?php echo json_encode($data); ?>;
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+ 
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Get page width and height
+        const pageWidth = doc.internal.pageSize.width;
+        const pageHeight = doc.internal.pageSize.height;
+
+        // Title (centered)
+        const title = "Sentiment Analysis Results";
+        const titleFontSize = 18;
+        doc.setFontSize(titleFontSize);
+
+        // Calculate xPosition for the title to be centered
+        const textWidth = doc.getTextWidth(title);
+        const titleXPosition = (pageWidth - textWidth) / 2;
+        doc.text(title, titleXPosition, 22); 
+
+        // Define initial Y position for the first chart
+        let yPosition = 30;
+
+        // Set max width and height for the images to prevent stretching
+        const maxWidth = pageWidth - 20; 
+        const maxHeight = pageHeight / 3;  
+
+        // Function to add images without stretching and adding page breaks if necessary
+        function addImageToPDF(canvasId, yPos) {
+            var canvas = document.getElementById(canvasId);
+            if (canvas) {
+                var imgData = canvas.toDataURL('image/png');
+
+                // Calculate aspect ratio and adjust size accordingly
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight); 
+
+                const adjustedWidth = imgWidth * ratio;
+                const adjustedHeight = imgHeight * ratio;
+
+                // Calculate xPosition to center the image
+                const xPosition = (pageWidth - adjustedWidth) / 2;
+
+                // Check if image fits on the current page, else add a new page
+                if (yPos + adjustedHeight > pageHeight - 20) {
+                    doc.addPage(); 
+                    yPos = 20; 
+                }
+
+                // Add the image to the PDF
+                doc.addImage(imgData, 'PNG', xPosition, yPos, adjustedWidth, adjustedHeight);
+
+                // Adjust yPosition for the next chart
+                yPos += adjustedHeight + 10;  
+            }
+            return yPos; 
+        }
+
+        // Add other charts (numTopic, sentimentChart, lineChart)
+        yPosition = addImageToPDF('numTopic', yPosition);
+        yPosition = addImageToPDF('sentimentChart', yPosition);
+
+        // Add ECharts chart (botleftcanva)
+        var botleftChart = document.getElementById('botleftcanva');
+        if (botleftChart) {
+            var botleftCanvas = botleftChart.getElementsByTagName('canvas')[0];
+            if (botleftCanvas) {
+                var botleftImgData = botleftCanvas.toDataURL('image/png');
+                const botleftImgWidth = botleftCanvas.width;
+                const botleftImgHeight = botleftCanvas.height;
+                const botleftRatio = Math.min(maxWidth / botleftImgWidth, maxHeight / botleftImgHeight);  
+                const botleftAdjustedWidth = botleftImgWidth * botleftRatio;
+                const botleftAdjustedHeight = botleftImgHeight * botleftRatio;
+                const botleftXPosition = (pageWidth - botleftAdjustedWidth) / 2; 
+
+                if (yPosition + botleftAdjustedHeight > pageHeight - 20) {
+                    doc.addPage();  
+                    yPosition = 20; 
+                }
+                doc.addImage(botleftImgData, 'PNG', botleftXPosition, yPosition, botleftAdjustedWidth, botleftAdjustedHeight);
+                yPosition += botleftAdjustedHeight + 10; 
+            }
+        }
+
+        
+        // Add overall sentiment table (overallPos, overallNeg)
+        const sentimentTableData = [
+            ['Overall Positive', overallPos],
+            ['Overall Negative', overallNeg]
+        ];
+
+        // Check if table fits on the current page, else add a new page
+        if (yPosition + 40 > pageHeight - 20) {
+            doc.addPage();
+            yPosition = 20;
+        }
+
+        // Add the sentiment summary table
+        doc.autoTable({
+            head: [['Metric', 'Value']], 
+            body: sentimentTableData, 
+            startY: yPosition + 20 
+        });
+
+        // Get data passed from PHP
+        var tableData = <?php echo json_encode($data); ?>;
+
+        yPosition = yPosition + 50;
+        yPosition = addImageToPDF('lineChart', yPosition);
+
+        // Prepare the table data for the Time Chart
+        let timeChartTableData = months.map((month, index) => {
+            return [month, positiveData[index], negativeData[index]];
+        });
+
+        // Add the table after the line chart
+        if (yPosition + 40 > pageHeight - 20) {
+            doc.addPage(); 
+            yPosition = 20; 
+        }
+
+        doc.autoTable({
+            head: [['Month', 'Positive Sentiment', 'Negative Sentiment']],  
+            body: timeChartTableData, 
+            startY: yPosition + 10
+        });
+
+        // Prepare table body for jsPDF autoTable
+        var tableBody = tableData.map(function(row) {
+            return [row.text, row.sentiment, row.category];
+        });
+
+        // Adds a new page for the review table
+        doc.addPage(); 
+        yPosition = 20; 
+        
+        doc.autoTable({
+            head: [['Review', 'Sentiment', 'Category']],
+            body: tableBody,
+            startY: yPosition 
+        });
+
+        // Filename with the current date
+        var filename = 'Sentiment_Results-' + formattedDate + '.pdf';
+
+        // Save PDF
+        doc.save(filename);
+    });
+
+    //Download CSV File
+    document.getElementById('downloadCsv').addEventListener('click', function () {
+        // Sample JSON data (you would use your own data here)
+        var jsonData = <?php echo json_encode($data); ?>;
+        
+        // Convert JSON to JavaScript object
+        var data = JSON.parse(JSON.stringify(jsonData));
+
+        // Check if data is an array
+        if (Array.isArray(data)) {
+            var ws_data = [];
+            if (data.length > 0) {
+                // Add header
+                ws_data.push(Object.keys(data[0]));
+
+                // Add rows
+                data.forEach(function(row) {
+                    ws_data.push(Object.values(row));
+                });
+            }
+
+            // Create a worksheet and workbook
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Analysis Results');
+
+            // Generate Excel file and trigger download
+            // Filename with the current date
+            var filename = 'Sentiment_Results-' + formattedDate + '.xlsx';
+
+            XLSX.writeFile(wb, filename);
+        } else {
+            console.error('The data is not an array.');
+        }
+    });
+
+
 </script>
 <?php
 include('footer.php');

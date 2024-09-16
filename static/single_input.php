@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
  
-</section><!-- /Hero Section -->
+</section>
 </main>
 
 <?php

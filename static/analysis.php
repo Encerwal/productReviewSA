@@ -62,7 +62,7 @@ include('header.php');
     }
 
     .grid-item {
-        border: 1px solid black; /* For visual reference */
+        border: 1px solid black;
         padding: 20px;
         box-sizing: border-box;
     }
@@ -120,10 +120,10 @@ include('header.php');
     }
 
     .grid-item {
-        border: 1px solid black; /* For visual reference */
+        border: 1px solid black;
         padding: 20px;
         box-sizing: border-box;
-        overflow-x: auto; /* Horizontal scroll on small screens */
+        overflow-x: auto;
         margin-bottom: 2rem;
     }
 
@@ -214,7 +214,6 @@ include('header.php');
 
             <div class="grid-container">
                 <div class="grid-item item1">
-                    <!-- Ensure that HTML output from Python is not escaped -->
                     <?php echo $output; ?>
                 </div>
                 <div class="grid-item item2">Content 2</div>
@@ -228,7 +227,7 @@ include('header.php');
     </div>
   </div>
  
-</section><!-- /Hero Section -->
+</section>
 </main>
 
     <main>

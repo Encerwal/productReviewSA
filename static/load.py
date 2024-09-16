@@ -5,6 +5,7 @@ import pandas as pd
 import torch.nn as nn
 from transformers import XLMRobertaModel
 import numpy as np
+import string
 
 app = Flask(__name__)
 
@@ -62,18 +63,16 @@ def analyze_sentiment(text):
 
 # Initialize sets for faster keyword lookups
 funclist = {
-    'functioning', 'operating', 'works', 'active', 'in use', 'impactful', 'successful',
-    'useful', 'practical', 'serviceable', 'performs', 'executes', 'carries out',
-    'accomplishes', 'running', 'working', 'handy', 'dependable', 'trustworthy', 'consistent',
-    'steady', 'stable', 'streamlined', 'productive', 'competent', 'resourceful',
-    'meets expectations', 'functions properly', 'in order', 'beeping', 'sounding', 'alarming',
+    'functioning', 'function', 'functions', 'operating', 'works', 'active', 'successful', 'work',
+    'useful', 'practical', 'serviceable', 'performs', 'perform', 'performing', 'executes',
+    'accomplishes', 'running', 'working', 'handy', 'dependable', 'consistent',
+    'steady', 'stable', 'streamlined', 'productive', 'competent', 'resourceful', 'beeping', 'sounding', 'alarming',
     'ringing', 'buzzing', 'charges', 'powers', 'energizes', 'replenishes', 'fills', 'connects',
     'links', 'joins', 'interfaces', 'attaches', 'smashes', 'breaks', 'shatters', 'crushes',
-    'demolishes', 'malfunction', 'breakdown', 'failure', 'defect', 'glitch', 'arrives', 'reaches',
-    'comes', 'shows up', 'lands', 'sends', 'transports', 'provides', 'brings', 'fits', 'suits',
+    'demolishes', 'malfunction', 'breakdown', 'failure', 'glitch', 'reaches',
     'matches', 'aligns', 'adapts', 'gumagana', 'sira', 'cuts', 'slices', 'trims', 'shears',
     'chops', 'nakaayos', 'organized', 'arranged', 'sorted', 'heats', 'warms', 'boils', 'cooks',
-    'toasts', 'hindi gumagana', 'not working', 'non-functional', 'broken', 'lasted', 'endured',
+    'toasts', 'hindi gumagana', 'non-functional', 'lasted', 'endured',
     'survived', 'remained', 'glitches', 'bugs', 'errors', 'issues', 'faults', 'uses', 'utilizes',
     'employs', 'applies', 'leverages', 'nakakapaso', 'burns', 'overheats', 'scalds', 'correct',
     'creates', 'produces', 'generates', 'forms', 'supports', 'aids', 'assists', 'backs',
@@ -81,68 +80,66 @@ funclist = {
     'siphons', 'handles', 'manages', 'grips', 'maneuvering', 'navigating', 'steering', 'guiding',
     'safe', 'secure', 'protected', 'easy', 'simple', 'straightforward', 'effortless', 'install',
     'set up', 'mount', 'place', 'configure', 'expands', 'enlarges', 'extends', 'grows',
-    'fitting', 'suitable', 'appropriate', 'matching', 'performing', 'maliit', 'naka-bubble wrap',
-    'bubble-wrapped', 'padded', 'protected', 'tamang-tama', 'just right', 'well-suited', 'magaan',
+    'fitting', 'suitable', 'appropriate', 'matching', 'maliit',
+    'bubble-wrapped', 'padded', 'protected', 'tamang-tama', 'well-suited', 'magaan',
     'lightweight', 'not heavy', 'nag-aano', 'acting up', 'misbehaving', 'bura', 'erased',
-    'wiped', 'removed', 'ka-tanggap', 'acceptable', 'hindi magagamit', 'unusable', 'alarm', 'alert',
-    'warning', 'siren', 'expiration', 'end date', 'expiry', 'termination', 'frustrating', 'irritating',
-    'annoying', 'exasperating', 'replacement', 'substitute', 'new part', 'alternative', 'ripped',
-    'torn', 'shredded', 'expire', 'run out', 'end', 'lapse', 'deal', 'bargain', 'offer', 'agreement',
-    'installed', 'mounted', 'peephole', 'viewer', 'window', 'observation hole', 'fix', 'repair',
-    'mend', 'function', 'purpose', 'role', 'operation', 'leak', 'escape', 'seep', 'breach',
+    'wiped', 'removed', 'ka-tanggap', 'acceptable', 'unusable', 'alarm', 'alert',
+    'warning', 'siren', 'expiration', 'expiry', 'termination', 'frustrating', 'irritating',
+    'replacement', 'substitute', 'new part', 'alternative', 'ripped',
+    'shredded', 'expire', 'lapse', 'agreement', 'installed', 'mounted', 'fix', 'repair',
+    'mend', 'purpose', 'role', 'operation', 'leak', 'escape', 'seep', 'breach',
     'charging', 'powering', 'replenishing', 'energizing', 'operate', 'control', 'manage', 'run',
-    'non-filled', 'empty', 'unfilled', 'hollow', 'good', 'fine', 'replace', 'substitute', 'exchange',
-    'swap', 'fail', 'collapse', 'break down', 'restore', 'firmly', 'properly adjusted', 'correctly set',
-    'well-tuned', 'suits needs', 'meets requirements', 'fulfills needs', 'battery life', 'power duration',
-    'charge lifespan', 'effective', 'functional', 'operational', 'usable', 'efficient', 'works as expected',
-    'functioning', 'beeping', 'charges', 'connects', 'smashes', 'malfunction', 'arrives', 'delivers',
-    'operates', 'fits', 'gumagana', 'sira', 'cuts', 'nakaayos', 'heats', 'hindi gumagana', 'lasted',
-    'glitches', 'uses', 'nakakapaso', 'accurate', 'makes', 'supports', 'leaking', 'drains', 'handles',
-    'maneuvering', 'safe', 'easy', 'install', 'expands', 'fitting', 'not working', 'performing', 'maliit',
-    'naka-bubble wrap', 'tamang-tama', 'magaan', 'nag-aano', 'bura', 'ka-tanggap', 'hindi magagamit',
-    'alarm', 'expiration', 'frustrating', 'replacement', 'ripped', 'expire', 'deal', 'installed',
-    'peephole', 'fixes', 'functionality', 'leakage', 'charging process', 'operates smoothly',
+    'non-filled', 'empty', 'unfilled', 'hollow', 'replace', 'substitute', 'exchange',
+    'swap', 'fail', 'collapse', 'break down', 'restore', 'firmly',
+    'well-tuned', 'effective', 'functional', 'operational', 'usable', 'efficient',
+    'functioning', 'beeping', 'charges', 'connects', 'smashes', 'malfunction', 'arrives',
+    'operates', 'fits', 'gumagana', 'sira', 'cuts', 'nakaayos', 'heats', 'lasted',
+    'glitches', 'uses', 'nakakapaso', 'accurate', 'supports', 'leaking', 'drains', 'handles',
+    'maneuvering', 'safe', 'easy', 'install', 'expands', 'fitting', 'maliit',
+    'naka-bubble wrap', 'tamang-tama', 'magaan', 'nag-aano', 'bura', 'ka-tanggap',
+    'alarm', 'expiration', 'replacement', 'ripped', 'expire', 'installed',
+    'peephole', 'fixes', 'functionality', 'leakage',
     'replaceable', 'exchangeable', 'substitutable', 'fails', 'repairable', 'fixable', 'mendable',
-    'securely', 'suits needs', 'battery life', 'defective unit', 'handle with care'
+    'securely', 'job'
 }
 
 quallist = {
-    "quality", "premium", "top-tier", "luxury", "upscale", "balanced expense",
+    "quality", "premium", "top-tier", "luxury", "upscale", "defect", "defective",
     "high-quality", "superior", "top-notch", "well-made", "expertly crafted", "well-built",
     "solid", "sturdy", "strong", "tough", "reliable", "dependable", "trustworthy", "consistent",
-    "secure", "elegant", "refined", "stylish", "graceful", "excellent", "superb", "outstanding",
+    "secure", "elegant", "refined",
     "first-rate", "clear", "distinct", "cleanly", "neatly", "smoothly", "nice", "pleasant",
-    "agreeable", "even", "sleek", "polished", "comfortable", "cozy", "impressive", "remarkable",
-    "flawless", "perfect", "impeccable", "faultless", "great", "adequate", "beautiful", "lovely",
-    "charming", "endearing", "inviting", "captivating", "intriguing", "engaging", "compelling",
+    "agreeable", "sleek", "polished", "comfortable", "cozy",
+    "flawless", "perfect", "impeccable", "faultless", "adequate", "beautiful", "lovely",
+    "charming", "endearing", "captivating", "intriguing", "engaging", "compelling",
     "classy", "sophisticated", "timely", "practical", "relevant", "accurate", "detailed",
     "up-to-date", "new", "recent", "fresh", "genuine", "authentic", "original", "true", "unique",
-    "classic", "ageless", "high-grade", "top-quality", "finest", "best", "ultimate", "complete",
-    "full", "entire", "finished", "accomplished", "well-maintained", "well-protected", "artisanal",
-    "handcrafted", "handmade", "design", "plan", "style", "layout", "interesting", "pleasant",
+    "classic", "ageless", "high-grade", "top-quality", "finest", "ultimate", "complete",
+    "well-maintained", "well-protected", "artisanal",
+    "handcrafted", "handmade", "design", "style", "layout", "interesting", "pleasant",
     "delightful", "stunning", "striking", "credible", "sharp", "perceptive", "acute", "tapered",
     "delicate", "fragile", "brittle", "weak", "flimsy", "low-quality", "poor", "subpar", "inadequate",
-    "insufficient", "deficient", "damaged", "broken", "faulty", "flawed", "ruined", "shattered",
-    "unfit", "unsuitable", "inappropriate", "shoddy", "substandard", "inexpensive resources",
-    "cheap materials", "low-cost materials", "material", "material feels cheap", "durable", "matibay"
+    "insufficient", "deficient", "damaged", "faulty", "flawed", "ruined", "shattered",
+    "unfit", "unsuitable", "inappropriate", "shoddy", "substandard", "condition"
+    "material", "durable", "matibay", "kalidad", "scratches", "scratch", "pristine", "broken", "broke"
 }
 
 pricelist = {
     "affordable", "economical", "reasonable", "budget-friendly", "cost-effective",
-    "value for money", "inexpensive", "expensive", "costly", "high-priced",
+    "inexpensive", "expensive", "costly", "high-priced",
     "overpriced", "pricey", "exorbitant", "lavish", "upscale", "extravagant",
-    "steep", "excessively high", "high-end", "deals and discounts", "bargain",
-    "deal", "steal", "offer", "discounted", "reduced", "marked down", "on sale",
+    "steep", "excessively high", "high-end", "discounts", "discount", "bargain",
+    "deal", "steal", "offer", "discounted", "reduced", "marked down", "sale",
     "fair", "moderate", "pricing and cost", "price", "cost", "rate", "value",
-    "fee", "charge", "price point", "cost level", "pricing", "balanced expense",
-    "justifiable cost", "worth", "worthwhile", "justifiable", "top-tier",
-    "efficiency", "efficient", "good deal", "abot-kaya", "matipid", "makatarungan",
-    "maganda ang halaga", "mura", "mahal", "magastos", "mataas ang presyo",
-    "sobra sa presyo", "mataas na presyo", "masyadong mahal", "maluhong", "magarbo",
-    "matindi ang presyo", "kasunduan", "abot-kayang presyo", "alok", "may diskwento",
-    "nabawasan", "binawasan ang presyo", "nasa sale", "katamtaman", "presyo",
-    "gastos", "halaga", "bayad", "singil", "presyo ng produkto", "antas ng gastos",
-    "pagpepresyo", "sulit",
+    "fee", "charge", "pricing", "balanced expense",
+    "worth", "worthwhile", "justifiable", "top-tier",
+    "efficient", "abot-kaya", "matipid", "makatarungan",
+    "mura", "mahal", "magastos", "mataas ang presyo",
+    "masyadong mahal", "maluhong", "magarbo",
+    "abot-kayang", "alok", "may diskwento",
+    "nabawasan", "katamtaman", "presyo", "cheap"
+    "gastos", "halaga", "bayad", "singil", "pagpepresyo", "sulit", "cheaper", "pricier",
+    "masmura", "masmahal"
 }
 
 keywords = {
@@ -243,7 +240,8 @@ def process_csv():
         # Add predicted labels to the DataFrame
         dataDF['sentiment'] = all_predicted_labels
         # Add categories to each review
-        dataDF['category'] = dataDF['text'].apply(classify_review)
+        dataDF['category'] = dataDF['text'].str.replace(
+            f'[{string.punctuation}]', ' ', regex=True).apply(classify_review)
 
         # Convert the DataFrame to JSON
         result_json = dataDF.to_json(orient='records')
