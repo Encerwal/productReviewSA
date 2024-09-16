@@ -1,5 +1,4 @@
 <?php
-// Include the header
 include('header.php');
 
 // Function to call the Flask API for sentiment analysis

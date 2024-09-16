@@ -74,7 +74,5 @@
         </nav>
   
         <a class="btn-getstarted flex-md-shrink-0" href="index.php#values">Get Started</a>
-  
       </div>
-  
     </header>

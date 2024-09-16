@@ -1,5 +1,5 @@
 <?php
-// Include the header
+ob_start();
 include('header.php');
 
 // Initialize variables
@@ -75,3 +75,6 @@ include('footer.php');
         document.getElementById('result-container').style.display = 'none';
     });
 </script>
+<?php
+ob_end_flush(); // Flush the output buffer
+?>
