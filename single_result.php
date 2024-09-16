@@ -4,7 +4,8 @@ include('header.php');
 
 // Function to call the Flask API for sentiment analysis
 function analyze_sentiment($input_text) {
-    $url = 'http://localhost:5000/analyze?text=' . urlencode($input_text);
+    $url = 'https://wxo66g09eg7m.share.zrok.io/analyze?text=' . urlencode($input_text);
+    #$url = 'http://localhost:8000/analyze?text=' . urlencode($input_text);
     $response = file_get_contents($url);
     $data = json_decode($response, true);
     return $data['sentiment'];
