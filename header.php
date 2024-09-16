@@ -31,7 +31,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
   
-        <a href="home.php" class="logo d-flex align-items-center me-auto">
+        <a href="index.php" class="logo d-flex align-items-center me-auto">
           <!-- Uncomment the line below if you also wish to use an image logo -->
           <img src="assets/img/logo.png" alt="">
           <h1 class="sitename">EmotiCart</h1>
@@ -40,15 +40,15 @@
         <!-- Navigation Menu -->
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="home.php#hero" class="active">Home<br></a></li>
-            <li><a href="home.php#about">About</a></li>
-            <li class="dropdown"><a href="home.php#values"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <li><a href="index.php#hero" class="active">Home<br></a></li>
+            <li><a href="index.php#about">About</a></li>
+            <li class="dropdown"><a href="index.php#values"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="single_input.php">Single Input</a></li>
                 <li><a href="upload.php">CSV File</a></li>
               </ul>
             </li>
-            <li><a href="home.php#team">Team</a></li>
+            <li><a href="index.php#team">Team</a></li>
           </ul>
             <div id="menuToggle">
               <input type="checkbox" id="menuCheckbox" style="position:absolute;width:50px;height:50px;transform: translate(-50%, -50%);"/>
@@ -60,20 +60,20 @@
               <div id="overlay"></div>
               <!-- Navigation Menu (MOBILE) -->
               <ul id="menu">
-                <li><a href="home.php#hero">Home</a></li>
-                <li><a href="home.php#about">About</a></li>
+                <li><a href="index.php#hero">Home</a></li>
+                <li><a href="index.php#about">About</a></li>
                 <li> <a href="" id="servicesToggle">Services  <i class="bi bi-chevron-down toggle-dropdown"></i></a></li>
                   <div id="servicesDropdown" style="display: none;">
                       <li><a href="single_input.php"><p style ="margin-bottom:-5px;">&nbsp;&nbsp;&nbsp;Single Input</p></a></li>
                       <li><a href="upload.php"><p style ="margin-bottom:-5px;">&nbsp;&nbsp;&nbsp;CSV File</p></a></li>
                   </div>
                 
-                <li><a href="home.php#team">Team</a></li>
+                <li><a href="index.php#team">Team</a></li>
               </ul>
           </div>
         </nav>
   
-        <a class="btn-getstarted flex-md-shrink-0" href="home.php#values">Get Started</a>
+        <a class="btn-getstarted flex-md-shrink-0" href="index.php#values">Get Started</a>
   
       </div>
   

@@ -4,7 +4,7 @@
 <div class="container footer-top">
   <div class="row gy-4">
     <div class="col-lg-4 col-md-6 footer-about">
-      <a href="home.php" class="d-flex align-items-center">
+      <a href="index.php" class="d-flex align-items-center">
         <span class="sitename">EmotiCart</span>
       </a>
       <div class="footer-contact pt-3">
@@ -18,9 +18,9 @@
     <div class="col-lg-2 col-md-3 footer-links">
       <h4>Useful Links</h4>
       <ul>
-        <li><i class="bi bi-chevron-right"></i> <a href="home.php#hero">Home</a></li>
-        <li><i class="bi bi-chevron-right"></i> <a href="home.php#about">About us</a></li>
-        <li><i class="bi bi-chevron-right"></i> <a href="home.php#values">Services</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="index.php#hero">Home</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="index.php#about">About us</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="index.php#values">Services</a></li>
       </ul>
     </div>
 
