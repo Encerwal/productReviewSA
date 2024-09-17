@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
         // cURL to send the file to the Flask server
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://wxo66g09eg7m.share.zrok.io/process_csv"); // Flask server endpoint
+        curl_setopt($ch, CURLOPT_URL, "https://wxo66g09eg7m.share.zrok.io/process_csv");
+        #curl_setopt($ch, CURLOPT_URL, "http://localhost:8000/process_csv");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         
@@ -63,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         // cURL to send the file to the Flask server
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://wxo66g09eg7m.share.zrok.io/process_csv"); // Flask server endpoint
+        #curl_setopt($ch, CURLOPT_URL, "http://localhost:8000/process_csv");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         
