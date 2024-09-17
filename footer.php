@@ -10,8 +10,8 @@
       <div class="footer-contact pt-3">
         <p>Holy Angel University</p>
         <p>Angeles City, Pampanga</p>
-        <p class="mt-3"><strong>Phone:</strong> <span>+63 9306600715</span></p>
-        <p><strong>Email:</strong> <span>emoticart2024@gmail.com</span></p>
+        <p class="mt-3"><strong>Phone:</strong> +63 9306600715</p>
+        <p><strong>Email:</strong> emoticart2024@gmail.com</p>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
       <h4>Follow Us</h4>
       <p>Follow our thesis work on our Github page.</p>
       <div class="social-links d-flex">
-        <a href="https://github.com/Encerwal" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+        <a href="https://github.com/Encerwal/productReviewSA" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
       </div>
     </div>
 

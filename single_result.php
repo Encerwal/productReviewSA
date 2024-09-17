@@ -4,7 +4,7 @@ include('header.php');
 // Function to call the Flask API for sentiment analysis
 function analyze_sentiment($input_text) {
     $url = 'https://wxo66g09eg7m.share.zrok.io/analyze?text=' . urlencode($input_text);
-    #$url = 'http://localhost:8000/analyze?text=' . urlencode($input_text);
+    #$url = 'http://localhost:5000/analyze?text=' . urlencode($input_text);
     $response = file_get_contents($url);
     $data = json_decode($response, true);
     return $data['sentiment'];
@@ -22,42 +22,42 @@ if (isset($_GET['user_input'])) {
 ?>
 <style>
     .sentiment-box {
-        border: 1px solid #ddd; /* Light border */
-        border-radius: 10px; /* Rounded corners */
-        padding: 50px; /* Padding inside the box */
-        background-color: #FFFFFF; /* Light background color */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        margin-top: 20px; /* Space above the box */
-        width: 100%; /* Maximum width of the box */
-        max-width: 600px; /* Max width for responsiveness */
-        margin-left: auto; /* Center align the box */
-        margin-right: auto; /* Center align the box */
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 50px;
+        background-color: #FFFFFF;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
         
-        display: flex; /* Use flexbox to align items */
-        align-items: center; /* Vertically center items */
-        gap: 40px; /* Space between image and text */
-        justify-content: center; /* Horizontally center items */
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        justify-content: center;
     }
 
     .sentiment-text {
         
-        text-align: left; /* Left-align the text */
+        text-align: left;
         
     }
 
     .sentiment-title {
-        margin-bottom: 5px; /* Reduce the bottom margin */
+        margin-bottom: 5px;
     }
 
     .sentiment-text p {
-        margin: 0; /* Remove default margin */
-        margin-bottom: 5px; /* Add a small margin to separate paragraphs */
+        margin: 0;
+        margin-bottom: 5px;
     }
 
     .sentiment-image {
-        flex-shrink: 0; /* Prevent image from shrinking */
-        width: 100px; /* Set image width */
-        height: auto; /* Maintain aspect ratio */
+        flex-shrink: 0;
+        width: 100px;
+        height: auto;
         
     }
     .again a{
@@ -115,7 +115,7 @@ if (isset($_GET['user_input'])) {
     </div>
 </div>
 
-</section><!-- /Hero Section -->
+</section>
 </main>
 
 <?php

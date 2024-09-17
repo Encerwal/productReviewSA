@@ -22,6 +22,7 @@ include('header.php');
             border-collapse: collapse;
             border-left: 1px solid #ddd;
             border-right: 1px solid #ddd; 
+            table-layout: fixed; /* Make sure columns are fixed and do not exceed the container */
         }
         th, td {
             padding: 8px;
@@ -85,18 +86,45 @@ include('header.php');
             align-items: center;
         }
         
-        #csvTable{
+        #csvTable {
             background-color: white;
-            border-radius: 10px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-            margin-right:10px;
-            margin-left:10px;
-            margin-bottom:5px;
-            padding: 20px; 
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0 10px 5px; /* Margins for desktop */
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
         }
 
-        #allsmall{
-            padding-left:25px;
+        #allsmall {
+            padding-left: 25px;
+        }
+
+        /* Responsive adjustments for small screens */
+        @media (max-width: 600px) {
+            #csv-container, .testa{
+                margin:5px;
+                width:98%
+            }
+            #csvTable {
+                margin: 0 5px;
+                padding: 10px; 
+            }
+            th:nth-child(1), td:nth-child(1) {
+                width: 55%;
+            }
+
+            th:nth-child(3), td:nth-child(3) {
+                width: 25%; 
+            }
+
+            table {
+                padding: 0;
+                
+            }
+            #allsmall {
+                padding-left: 10px;
+            }
         }
     </style>
 
@@ -768,25 +796,30 @@ include('header.php');
         const pageWidth = doc.internal.pageSize.width;
         const pageHeight = doc.internal.pageSize.height;
 
-        // Title (centered)
-        const title = "Sentiment Analysis Results";
-        const titleFontSize = 18;
+        // Get the first and last month
+        const firstMonth = months[0]; 
+        const lastMonth = months[months.length - 1];
+
+        // Title with date range
+        const title = `Analysis Report (${firstMonth} - ${lastMonth})`;
+        const titleFontSize = 16;
         doc.setFontSize(titleFontSize);
+        doc.setFont("helvetica", "bold"); 
 
         // Calculate xPosition for the title to be centered
         const textWidth = doc.getTextWidth(title);
         const titleXPosition = (pageWidth - textWidth) / 2;
         doc.text(title, titleXPosition, 22); 
 
-        // Define initial Y position for the first chart
+        // Define initial Y position for the first page
         let yPosition = 30;
 
         // Set max width and height for the images to prevent stretching
-        const maxWidth = pageWidth - 20; 
-        const maxHeight = pageHeight / 3;  
+        const maxWidth = (pageWidth - 30) / 2; // Allow space for margins between images
+        const maxHeight = pageHeight / 2; // Adjusted to fit two images on the first page
 
         // Function to add images without stretching and adding page breaks if necessary
-        function addImageToPDF(canvasId, yPos) {
+        function addImageToPDF(canvasId, xPos, yPos) {
             var canvas = document.getElementById(canvasId);
             if (canvas) {
                 var imgData = canvas.toDataURL('image/png');
@@ -799,9 +832,6 @@ include('header.php');
                 const adjustedWidth = imgWidth * ratio;
                 const adjustedHeight = imgHeight * ratio;
 
-                // Calculate xPosition to center the image
-                const xPosition = (pageWidth - adjustedWidth) / 2;
-
                 // Check if image fits on the current page, else add a new page
                 if (yPos + adjustedHeight > pageHeight - 20) {
                     doc.addPage(); 
@@ -809,41 +839,49 @@ include('header.php');
                 }
 
                 // Add the image to the PDF
-                doc.addImage(imgData, 'PNG', xPosition, yPos, adjustedWidth, adjustedHeight);
+                doc.addImage(imgData, 'PNG', xPos, yPos, adjustedWidth, adjustedHeight);
 
-                // Adjust yPosition for the next chart
-                yPos += adjustedHeight + 10;  
+                // Return the updated yPosition after adding this image
+                return yPos;
             }
-            return yPos; 
+            return yPos;
         }
 
-        // Add other charts (numTopic, sentimentChart, lineChart)
-        yPosition = addImageToPDF('numTopic', yPosition);
-        yPosition = addImageToPDF('sentimentChart', yPosition);
+        // Add first two charts beside each other on the first page
+        const firstImageXPosition = 15; // X position for the first image
+        const secondImageXPosition = firstImageXPosition + maxWidth + 10; // Space between images
+
+        yPosition = addImageToPDF('numTopic', firstImageXPosition, yPosition);
+        yPosition = addImageToPDF('sentimentChart', secondImageXPosition, yPosition);
+
+        yPosition += 100;
 
         // Add ECharts chart (botleftcanva)
         var botleftChart = document.getElementById('botleftcanva');
-        if (botleftChart) {
-            var botleftCanvas = botleftChart.getElementsByTagName('canvas')[0];
-            if (botleftCanvas) {
-                var botleftImgData = botleftCanvas.toDataURL('image/png');
-                const botleftImgWidth = botleftCanvas.width;
-                const botleftImgHeight = botleftCanvas.height;
-                const botleftRatio = Math.min(maxWidth / botleftImgWidth, maxHeight / botleftImgHeight);  
-                const botleftAdjustedWidth = botleftImgWidth * botleftRatio;
-                const botleftAdjustedHeight = botleftImgHeight * botleftRatio;
-                const botleftXPosition = (pageWidth - botleftAdjustedWidth) / 2; 
+            if (botleftChart) {
+                var botleftCanvas = botleftChart.getElementsByTagName('canvas')[0];
+                if (botleftCanvas) {
+                    var botleftImgData = botleftCanvas.toDataURL('image/png');
+                    const botleftImgWidth = botleftCanvas.width;
+                    const botleftImgHeight = botleftCanvas.height;
+                    const botleftRatio = Math.min(maxWidth / botleftImgWidth, maxHeight / botleftImgHeight);  
+                    const botleftAdjustedWidth = botleftImgWidth * botleftRatio;
+                    const botleftAdjustedHeight = botleftImgHeight * botleftRatio;
+                    const botleftXPosition = (pageWidth - botleftAdjustedWidth) / 2; 
 
-                if (yPosition + botleftAdjustedHeight > pageHeight - 20) {
-                    doc.addPage();  
-                    yPosition = 20; 
+                    if (yPosition + botleftAdjustedHeight > pageHeight - 20) {
+                        doc.addPage();  
+                        yPosition = 20; 
+                    }
+                    doc.addImage(botleftImgData, 'PNG', botleftXPosition, yPosition, botleftAdjustedWidth, botleftAdjustedHeight);
+                    yPosition += botleftAdjustedHeight + 10; 
                 }
-                doc.addImage(botleftImgData, 'PNG', botleftXPosition, yPosition, botleftAdjustedWidth, botleftAdjustedHeight);
-                yPosition += botleftAdjustedHeight + 10; 
             }
-        }
 
         
+        // Define x position for the table beside the chart
+        tableWidthPercentage = 0.60; // Percentage of page width for the table
+        tableXPosition = pageWidth / 2 - ((tableWidthPercentage * pageWidth) / 2);
         // Add overall sentiment table (overallPos, overallNeg)
         const sentimentTableData = [
             ['Overall Positive', overallPos],
@@ -860,14 +898,19 @@ include('header.php');
         doc.autoTable({
             head: [['Metric', 'Value']], 
             body: sentimentTableData, 
-            startY: yPosition + 20 
+            startY: yPosition,
+            tableWidth: tableWidthPercentage * pageWidth,
+            styles: { cellWidth: 'wrap'}, // Adjust font size and cell width
+            margin: { left: tableXPosition}, // Ensure proper margins
+            pageBreak: 'auto',
+            
         });
-
+        yPosition += 150; // Adjust yPosition for the next content
         // Get data passed from PHP
         var tableData = <?php echo json_encode($data); ?>;
 
-        yPosition = yPosition + 50;
-        yPosition = addImageToPDF('lineChart', yPosition);
+        // Add other charts (lineChart) on the next page
+        yPosition = addImageToPDF('lineChart', 60, yPosition);
 
         // Prepare the table data for the Time Chart
         let timeChartTableData = months.map((month, index) => {
@@ -875,15 +918,20 @@ include('header.php');
         });
 
         // Add the table after the line chart
-        if (yPosition + 40 > pageHeight - 20) {
+        if (yPosition + 40 > pageHeight - 20) { 
             doc.addPage(); 
             yPosition = 20; 
         }
 
+        tableWidthPercentage = 0.60; // Percentage of page width for the table
+        tableXPosition = pageWidth / 2 - ((tableWidthPercentage * pageWidth) / 2);
+        yPosition += 100; // Adjust yPosition for the next content
         doc.autoTable({
             head: [['Month', 'Positive Sentiment', 'Negative Sentiment']],  
             body: timeChartTableData, 
-            startY: yPosition + 10
+            startY: yPosition,
+            tableWidth: tableWidthPercentage * pageWidth,
+            margin: { left: tableXPosition}, // Ensure proper margins
         });
 
         // Prepare table body for jsPDF autoTable
