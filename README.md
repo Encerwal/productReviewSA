@@ -7,10 +7,8 @@ This web application is developed as part of our thesis project. It enables user
 * [Features](#features)
 * [Technologies Used](#technologies-used)
 * [Setup Instructions](#setup-instructions)
-* [How to Use]
-* [Deployment]
-* [Project Structure]
-* [Future Improvements]
+* [How to Use](#how-to-use)
+* [Future Improvements](#future-improvements)
 
 ## Overview
 This project demonstrates the use of a machine learning model integrated into a web application to perform sentiment analysis. The system can process individual text inputs or large datasets in CSV format. Sentiment analysis results are provided in real time, with the front end deployed on Render and the model running locally using Docker and accessed via zrok.
@@ -111,3 +109,23 @@ http://localhost:8000/analyze?text=hello
 * You should see a JSON response with the sentiment analysis result.
 
 ### Testing the Connection Between PHP and Flask
+Ensure Both Are Running:
+
+* Confirm that the Flask API is running locally in Docker and is accessible via http://localhost:8000/.
+* Ensure that XAMPP is running and serving your PHP app on http://localhost/ThesisWeb/.
+
+## How to Use
+1. Single Input Sentiment Analysis:
+
+* Go to Services and choose Single Input
+* Enter a text in the input field and click "Analyze Sentiment."
+* The sentiment result will be displayed on the next page.
+2. CSV File Upload:
+* Go to Services and choose CSV File 
+* Upload a CSV file containing text data or use a sample file by clicking the underlined text 'sample file'.
+* The app will process each text and return the sentiment for each row.
+  
+## Future Improvements
+* Model Optimization: Reduce the model's size and memory usage for more efficient deployment.
+* Improved UI: Enhance the user interface for better user experience.
+* Expanded Sentiment Classes: Allow for more nuanced sentiment categories beyond positive and negative.
