@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
         // cURL to send the file to the Flask server
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://wxo66g09eg7m.share.zrok.io/process_csv"); // Flask server endpoint
+        curl_setopt($ch, CURLOPT_URL, "https://wxo66g09eg7m.share.zrok.io/process_csv");
         #curl_setopt($ch, CURLOPT_URL, "http://localhost:5000/process_csv");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -93,8 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     }
 }
 ?>
-
-
 <?php include('header.php'); ?>
 <main>
     <section id="hero" class="hero section">
@@ -198,17 +196,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
   });
 
 </script>
-
-<style>
-  .drop-area {
-    border: 2px dashed #ddd;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-
-  .drop-area.highlight {
-    border-color: #06c;
-  }
-</style>

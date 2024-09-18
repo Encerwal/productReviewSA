@@ -54,27 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </main>
 
 <?php
-// Include the footer
 include('footer.php');
-?>
-
-
-<script>
-    $("a#btn-analyze").click(function()
-    {
-    $("#sentiment-form").submit();
-    return false;
-    });
-
-    // JavaScript to show loader and hide previous results when form is submitted
-    document.getElementById('sentiment-form').addEventListener('submit', function() {
-        // Show loader
-        document.getElementById('loader-container').style.display = 'flex';
-
-        // Hide previous results
-        document.getElementById('result-container').style.display = 'none';
-    });
-</script>
-<?php
-ob_end_flush(); // Flush the output buffer
+ob_end_flush();
 ?>

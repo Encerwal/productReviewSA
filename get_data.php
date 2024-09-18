@@ -1,7 +1,6 @@
 <?php
-session_start(); // Start the session
+session_start();
 
-// Number of rows per page
 $rows_per_page = 15;
 
 // Get the current page from the AJAX request, if not present default to page 1
@@ -11,8 +10,8 @@ $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $data = json_decode($_SESSION['file_data'], true);
 $data = json_decode($data, true);
 
-$total_rows = count($data); // Total number of rows
-$total_pages = ceil($total_rows / $rows_per_page); // Total number of pages
+$total_rows = count($data);
+$total_pages = ceil($total_rows / $rows_per_page);
 
 // Ensure current page is within valid range
 if ($current_page < 1) $current_page = 1;
@@ -33,6 +32,5 @@ $response = [
 
 // Return the sliced data as JSON
 header('Content-Type: application/json');
-// Return the response as JSON
 echo json_encode($response);
 ?>

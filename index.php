@@ -1,5 +1,4 @@
 <?php
-// Include the header
 include('header.php');
 ?>
 
@@ -20,7 +19,6 @@ include('header.php');
             </p>
             <div class="d-flex flex-column flex-md-row" data-aos="fade-up" data-aos-delay="200">
               <a href="#values" class="btn-get-started">Get Started <i class="bi bi-arrow-right"></i></a>
-              
             </div>
           </div>
           <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out">
@@ -29,7 +27,7 @@ include('header.php');
         </div>
       </div>
 
-    </section><!-- /Hero Section -->
+    </section>
 
     <!-- About Section -->
     <section id="about" class="about section">
@@ -298,7 +296,7 @@ include('header.php');
               <div class="member-info">
                 <h4>Rhonee Tolentino</h4>
                 <span>BS Computer Science</span>
-                <p>Don’t let valuable customer feedback go untapped. With our advanced sentiment analysis, turn reviews into strategic advantages. Identify trends, understand customer needs, and elevate your product offerings to new heights.</p>
+                <p>In the fast-paced e-commerce world, staying ahead is key. Our sentiment analysis services equip you with precise data to understand market sentiments, allowing you to adapt quickly and stay competitive in your industry.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -315,7 +313,7 @@ include('header.php');
               <div class="member-info"> 
                 <h4>Sebastian Visperas</h4>
                 <span>BS Computer Science</span>
-                <p>In the fast-paced e-commerce world, staying ahead is key. Our sentiment analysis services equip you with precise data to understand market sentiments, allowing you to adapt quickly and stay competitive in your industry.</p>
+                <p>Embrace the full potential of customer reviews. Our platform transforms feedback into valuable insights, empowering you to refine your products, enhance customer satisfaction, and build a brand that resonates with your audience.</p>
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -325,6 +323,5 @@ include('header.php');
   </main>
 
 <?php
-// Include the footer
 include('footer.php');
 ?>

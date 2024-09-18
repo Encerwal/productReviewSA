@@ -1,11 +1,3 @@
-/**
-* Template Name: FlexStart
-* Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
-* Updated: Aug 07 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 (function() {
   "use strict";
 
@@ -171,7 +163,7 @@
  
   // JavaScript to uncheck the checkbox when any link except the 'Services' link in ul#menu is clicked
   document.querySelectorAll('#menu a').forEach(function(link) {
-    if (link.id !== 'servicesToggle') { // Exclude the 'Services' link
+    if (link.id !== 'servicesToggle') {
         link.addEventListener('click', function() {
             document.getElementById('menuCheckbox').checked = false;
         });
@@ -181,8 +173,8 @@
 // JavaScript to toggle dropdown visibility
 document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
     toggle.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default anchor click behavior
-        var dropdownMenu = this.nextElementSibling; // Get the next sibling which is the dropdown menu
+        event.preventDefault();
+        var dropdownMenu = this.nextElementSibling;
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     });
 });
@@ -201,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const servicesDropdown = document.getElementById('servicesDropdown');
   
   servicesToggle.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default anchor behavior
+      event.preventDefault();
 
       if (servicesDropdown.style.display === 'none') {
           servicesDropdown.style.display = 'block';
@@ -210,5 +202,20 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 });
+
+//FOR SINGLE_INPUT.PHP
+$("a#btn-analyze").click(function(){
+  $("#sentiment-form").submit();
+  return false;
+  });
+
+  // JavaScript to show loader and hide previous results when form is submitted
+  document.getElementById('sentiment-form').addEventListener('submit', function() {
+      // Show loader
+      document.getElementById('loader-container').style.display = 'flex';
+
+      // Hide previous results
+      document.getElementById('result-container').style.display = 'none';
+  });
 
 })();

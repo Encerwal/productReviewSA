@@ -20,54 +20,6 @@ if (isset($_GET['user_input'])) {
     $sentiment_result = analyze_sentiment($input_text);
 }
 ?>
-<style>
-    .sentiment-box {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 50px;
-        background-color: #FFFFFF;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-top: 20px;
-        width: 100%;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        
-        display: flex;
-        align-items: center;
-        gap: 40px;
-        justify-content: center;
-    }
-
-    .sentiment-text {
-        
-        text-align: left;
-        
-    }
-
-    .sentiment-title {
-        margin-bottom: 5px;
-    }
-
-    .sentiment-text p {
-        margin: 0;
-        margin-bottom: 5px;
-    }
-
-    .sentiment-image {
-        flex-shrink: 0;
-        width: 100px;
-        height: auto;
-        
-    }
-    .again a{
-        margin-top: 30px;
-    }
-
-    .single-result-container h1{
-        margin-bottom: 10px;
-    }
-</style>
 
 <!-- Main Content of the Single Input Page -->
 <main class="main">
@@ -119,6 +71,5 @@ if (isset($_GET['user_input'])) {
 </main>
 
 <?php
-// Include the footer
 include('footer.php');
 ?>

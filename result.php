@@ -1,6 +1,5 @@
 <?php
-session_start(); // Start the session
-
+session_start();
 include('header.php');
 ?>
 
@@ -15,119 +14,6 @@ include('header.php');
 
 
 <main class="main">
-
-<style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-left: 1px solid #ddd;
-            border-right: 1px solid #ddd; 
-            table-layout: fixed; /* Make sure columns are fixed and do not exceed the container */
-        }
-        th, td {
-            padding: 8px;
-            border-left: none;
-            border-right: none;
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-         background-color: #f2f2f2;
-        }
-      
-        th:nth-child(1), td:nth-child(1) {
-            width: 60%;
-        }
-
-        th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3) {
-            width: 20%; 
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            
-        }
-
-        .pagination button {
-            padding: 10px;
-            margin-right: 5px;
-            cursor: pointer;
-            background: none;
-            border: none; 
-            font-size: 1rem; 
-            color: #4154f1; 
-        }
-
-        .pagination button:disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-
-        #page-numbers {
-            font-size: 1rem; 
-            margin: 0 10px;
-        }
-
-   
-        #botleft, #topleft, #topright, #botright {
-            background-color: white;
-            padding: 0px;
-            border-radius: 10px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-            padding:15px;
-            margin: 0px auto 30px auto; 
-            
-            display: flex;
-            justify-content: center; 
-            align-items: center;
-        }
-        
-        #csvTable {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 0 10px 5px; /* Margins for desktop */
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-x: auto; /* Enable horizontal scrolling if needed */
-        }
-
-        #allsmall {
-            padding-left: 25px;
-        }
-
-        /* Responsive adjustments for small screens */
-        @media (max-width: 600px) {
-            #csv-container, .testa{
-                margin:5px;
-                width:98%
-            }
-            #csvTable {
-                margin: 0 5px;
-                padding: 10px; 
-            }
-            th:nth-child(1), td:nth-child(1) {
-                width: 55%;
-            }
-
-            th:nth-child(3), td:nth-child(3) {
-                width: 25%; 
-            }
-
-            table {
-                padding: 0;
-                
-            }
-            #allsmall {
-                padding-left: 10px;
-            }
-        }
-    </style>
-
 <section id="hero" class="hero section">
     <div class="container2 d-flex justify-content-center align-items-start" id="csv-container">
         <div class="testa row gy-4">  
@@ -815,8 +701,8 @@ include('header.php');
         let yPosition = 30;
 
         // Set max width and height for the images to prevent stretching
-        const maxWidth = (pageWidth - 30) / 2; // Allow space for margins between images
-        const maxHeight = pageHeight / 2; // Adjusted to fit two images on the first page
+        const maxWidth = (pageWidth - 30) / 2;
+        const maxHeight = pageHeight / 2;
 
         // Function to add images without stretching and adding page breaks if necessary
         function addImageToPDF(canvasId, xPos, yPos) {
@@ -829,8 +715,8 @@ include('header.php');
                 const imgHeight = canvas.height;
                 const ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight); 
 
-                const adjustedWidth = imgWidth * ratio;
-                const adjustedHeight = imgHeight * ratio;
+                const adjustedWidth = (imgWidth-25) * ratio;
+                const adjustedHeight = (imgHeight-25) * ratio;
 
                 // Check if image fits on the current page, else add a new page
                 if (yPos + adjustedHeight > pageHeight - 20) {
@@ -848,13 +734,13 @@ include('header.php');
         }
 
         // Add first two charts beside each other on the first page
-        const firstImageXPosition = 15; // X position for the first image
-        const secondImageXPosition = firstImageXPosition + maxWidth + 10; // Space between images
+        const firstImageXPosition = 15;
+        const secondImageXPosition = firstImageXPosition + maxWidth + 10;
 
         yPosition = addImageToPDF('numTopic', firstImageXPosition, yPosition);
         yPosition = addImageToPDF('sentimentChart', secondImageXPosition, yPosition);
 
-        yPosition += 100;
+        yPosition +=85;
 
         // Add ECharts chart (botleftcanva)
         var botleftChart = document.getElementById('botleftcanva');
@@ -880,7 +766,7 @@ include('header.php');
 
         
         // Define x position for the table beside the chart
-        tableWidthPercentage = 0.60; // Percentage of page width for the table
+        tableWidthPercentage = 0.60;
         tableXPosition = pageWidth / 2 - ((tableWidthPercentage * pageWidth) / 2);
         // Add overall sentiment table (overallPos, overallNeg)
         const sentimentTableData = [
@@ -900,12 +786,12 @@ include('header.php');
             body: sentimentTableData, 
             startY: yPosition,
             tableWidth: tableWidthPercentage * pageWidth,
-            styles: { cellWidth: 'wrap'}, // Adjust font size and cell width
-            margin: { left: tableXPosition}, // Ensure proper margins
+            styles: { cellWidth: 'wrap'},
+            margin: { left: tableXPosition},
             pageBreak: 'auto',
             
         });
-        yPosition += 150; // Adjust yPosition for the next content
+        yPosition += 150;
         // Get data passed from PHP
         var tableData = <?php echo json_encode($data); ?>;
 
@@ -923,15 +809,15 @@ include('header.php');
             yPosition = 20; 
         }
 
-        tableWidthPercentage = 0.60; // Percentage of page width for the table
+        tableWidthPercentage = 0.60;
         tableXPosition = pageWidth / 2 - ((tableWidthPercentage * pageWidth) / 2);
-        yPosition += 100; // Adjust yPosition for the next content
+        yPosition += 90;
         doc.autoTable({
             head: [['Month', 'Positive Sentiment', 'Negative Sentiment']],  
             body: timeChartTableData, 
             startY: yPosition,
             tableWidth: tableWidthPercentage * pageWidth,
-            margin: { left: tableXPosition}, // Ensure proper margins
+            margin: { left: tableXPosition},
         });
 
         // Prepare table body for jsPDF autoTable
