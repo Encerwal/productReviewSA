@@ -52,6 +52,7 @@ tokenizer = AutoTokenizer.from_pretrained("./model")
 
 
 # FOR SINGLE INPUT SENTIMENT ANALYSIS (GET REQUEST)
+
 def analyze_sentiment(text):
     inputs = tokenizer(text, return_tensors="pt")
     outputs = model(**inputs)
@@ -150,6 +151,7 @@ keywords = {
 
 
 # FOR CLASSIFICATION OF REVIEWS
+
 def classify_review(review):
     scores = {'functionality': 0, 'quality': 0, 'price': 0}
 
@@ -198,7 +200,7 @@ def process_csv():
         dataDF = pd.read_csv(file, encoding="Latin-1")
 
         # Define batch size
-        batch_size = 32  # Adjust based on available memory
+        batch_size = 32
         input_texts = dataDF['text'].tolist()
 
         # Process in batches
@@ -209,10 +211,6 @@ def process_csv():
             # Tokenize the input texts (this will handle multiple texts as a batch)
             inputs = tokenizer(batch_texts, return_tensors="pt",
                                truncation=True, padding=True)
-
-            # Extract input_ids and attention_mask from the tokenized input
-            input_ids = inputs["input_ids"]
-            attention_mask = inputs["attention_mask"]
 
             # Disable gradient calculations for inference
             with torch.no_grad():
@@ -239,6 +237,7 @@ def process_csv():
 
         # Add predicted labels to the DataFrame
         dataDF['sentiment'] = all_predicted_labels
+
         # Add categories to each review
         dataDF['category'] = dataDF['text'].str.replace(
             f'[{string.punctuation}]', ' ', regex=True).apply(classify_review)
