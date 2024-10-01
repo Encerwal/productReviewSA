@@ -54,11 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
         // Verify file extension and size
         if (!array_key_exists($file_ext, $allowed_types) || $file_type !== $allowed_types[$file_ext]) {
-            die("Error: Please select a valid CSV file.");
+            echo "<script>alert('Please select a valid CSV file.'); window.history.back();</script>";
+            exit;
         }
 
         if ($file_size > $max_size) {
-            die("Error: File size is larger than the allowed limit of 10MB.");
+            echo "<script>alert('File size is larger than the allowed limit of 10MB.'); window.history.back();</script>";
+            exit;
         }
 
         // cURL to send the file to the Flask server
