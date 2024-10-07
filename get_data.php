@@ -11,7 +11,13 @@ $category_filter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 // Get the data from the session
 if (isLoggedIn()) {
-    $data = json_decode($_SESSION['file_data_log'], true);
+    if (!empty($_SESSION['file_data_log'])) {
+        $data = json_decode($_SESSION['file_data_log'], true);
+    } else {
+        $data = json_decode($_SESSION['file_data'], true);
+        $data = json_decode($data, true);
+    }
+    
 }
 else
 {
