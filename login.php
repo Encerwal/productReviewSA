@@ -11,15 +11,15 @@ $error_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = $_POST['password']; // This is the user-submitted password
 
     try {
-        // Connect to the PostgreSQL database
-        //$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+        // Get environment variables for the database connection
         $host = $_ENV['DATABASE_HOST'];
-        $password = $_ENV['DATABASE_PASSWORD'];
+        $db_password = $_ENV['DATABASE_PASSWORD']; // Changed this to avoid conflict
 
-        $pdo = new PDO("pgsql:host=$host;port=5432;dbname=emoticart;user=emoticart;password=$password");
+        // Establish the database connection
+        $pdo = new PDO("pgsql:host=$host;port=5432;dbname=emoticart;user=emoticart;password=$db_password");
 
         // Prepare a statement to fetch user details based on the username
         $sql = "SELECT * FROM users WHERE username = :username";
@@ -27,12 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Verify the user exists and the password is correct
         if ($user && password_verify($password, $user['password'])) {
             // If the user is found and the password is correct, start a session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
 
-            // Redirect the user to dashboard.php after successful login
+            // Redirect the user to manage_products.php after successful login
             header("Location: manage_products.php");
             exit(); // Ensure no further code is executed
         } else {
