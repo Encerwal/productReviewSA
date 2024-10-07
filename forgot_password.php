@@ -17,7 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         //$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
-        $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=emoticart;password=102475");
+        $host = $_ENV['DATABASE_HOST'];
+        $password = $_ENV['DATABASE_PASSWORD'];
+
+        $pdo = new PDO("pgsql:host=$host;port=5432;dbname=emoticart;user=emoticart;password=$password");
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
@@ -34,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute(['email' => $email, 'token' => $token, 'expires' => $expires]);
 
             // Create a reset link
-            $reset_link = "http://localhost/ThesisWeb/reset_password.php?token=" . $token;
+            $reset_link = "https://emoticart.onrender.com/reset_password.php?token=" . $token;
 
             // Send the email using PHPMailer
             $mail = new PHPMailer(true);

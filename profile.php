@@ -7,7 +7,10 @@ requireLogin();
 
 // Connect to the database
 //$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
-$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=emoticart;password=102475");
+$host = $_ENV['DATABASE_HOST'];
+$password = $_ENV['DATABASE_PASSWORD'];
+
+$pdo = new PDO("pgsql:host=$host;port=5432;dbname=emoticart;user=emoticart;password=$password");
 
 // Initialize feedback message
 $feedback_message = '';
