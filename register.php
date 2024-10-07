@@ -2,11 +2,12 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $email = $_POST['email'];  // Capture email input
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     try {
-        $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+        //$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+        $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=emoticart;password=102475");
 
         // Check if the username or email already exists in the database
         $sql = "SELECT * FROM users WHERE email = :email OR username = :username";

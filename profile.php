@@ -5,8 +5,9 @@ require_once 'auth.php';
 // Ensure the user is logged in
 requireLogin();
 
-// Connect to the database (modify the connection details accordingly)
-$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+// Connect to the database
+//$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=emoticart;password=102475");
 
 // Initialize feedback message
 $feedback_message = '';

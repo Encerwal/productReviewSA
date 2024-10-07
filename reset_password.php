@@ -6,7 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     try {
-        $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+        //$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+        $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=emoticart;password=102475");
 
         // Check if the token exists and is still valid
         $sql = "SELECT * FROM password_resets WHERE token = :token AND expires_at >= :current_time";
