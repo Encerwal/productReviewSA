@@ -1,6 +1,6 @@
 <?php
-session_start();
-
+ob_start();
+include('header.php');
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == 'sample'){
@@ -94,8 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         echo "Error: " . $_FILES['file']['error'];
     }
 }
+
 ?>
-<?php include('header.php'); ?>
+
 <main>
     <section id="hero" class="hero section">
         <div class="container d-flex justify-content-center align-items-start" id="single-container">
@@ -134,7 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         </div>
     </section>
 </main>
-<?php include('footer.php'); ?>
+<?php include('footer.php'); 
+ob_end_flush();
+?>
 
 <!-- JavaScript to handle Drag and Drop -->
 <script>

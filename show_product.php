@@ -1,45 +1,9 @@
 <?php
-session_start();
+require_once 'auth.php';
+requireLogin();
 include('header.php');
 ?>
-<style>
-/* Modal styling */
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    height: 30%;
-    width: 30%;
-    min-width: 300px;
-    display: none; 
-    z-index: 1001;
-}
 
-.btn-close {
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-}
-input[type="text"] {
-        width: 50%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 0px;
-    }
-
-input[type="text"]:focus{
-    border-color: var(--accent-color);
-    outline: none;
-    box-shadow: none;
-    }
-
-
-</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> 
 <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
@@ -49,25 +13,45 @@ input[type="text"]:focus{
 <!-- Download csv script -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-
 <main class="main">
 <section id="hero" class="hero section">
     <div class="container2 d-flex justify-content-center align-items-start" id="csv-container">
         <div class="testa row gy-4">  
             <?php 
             // Check if file data is available in the session
-            if (isset($_SESSION['file_data'])) { ?>
+            if (isset($_GET['id'])) { 
+                $product_id = $_GET['id'];
+                // Connect to the database
+                try {
+                    $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
+                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                    // Query to retrieve the JSON data for the product by ID
+                    $sql = "SELECT product_name, product_details FROM saved_products WHERE item_id = :item_id";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute(['item_id' => $product_id]);
+
+                    // Fetch the product details
+                    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($product) {
+                        // Get the product name and JSON data
+                        $product_name = $product['product_name'];
+                        $data = json_decode($product['product_details'], true);
+                        $_SESSION['file_data_log'] = $product['product_details'];
+                    } else {
+                        echo "Product not found!";
+                    }
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }       
+            ?>
                 <div class="col-lg-12 d-flex flex-column justify-content-center text-center">
-                    <h1 id='csv-title'>Analysis Results</h1>
+                    <h1 id="csv-title"> <?php echo htmlspecialchars($product_name). " Analysis" ?> </h1>
                 </div>
                 <!-- Large Box on the Left -->
                 <div class="col-lg-2" id="csvTable">
-                
                 <?php
-                    // Decode the JSON data
-                    $data = json_decode($_SESSION['file_data'], true);
-                    $data = json_decode($data, true);
-                    
                     $qualPos = 0;
                     $qualNeg = 0;
                     $pricePos = 0;
@@ -271,21 +255,13 @@ input[type="text"]:focus{
                     </div>
                 </div>
                 <div class="download-container">
-                    <a href="upload.php" class="btn-get-started" id="uploadAnother">Upload Another</a>
+                    <a href="manage_products.php" class="btn-get-started" id="uploadAnother">Go Back</a>
                     <button class="btn-get-started" id="downloadPdf">Download PDF File</button>
                     <button class="btn-get-started" id="downloadCsv">Download CSV File</button>
-                    <button class="btn-get-started" id="saveResults">Save Results</button>
                 </div>
             </div>  
         </div>
     </div>
-<!-- Modal Structure -->
-<div id="overlay-results" class="overlay-results"></div>
-<div id="modal" class="modal">
-    <div class="modal-content" id="modalContent">
-        <!-- Content will be dynamically inserted here -->
-    </div>
-</div>
 </section>
 
 </main>
@@ -962,143 +938,6 @@ input[type="text"]:focus{
             console.error('The data is not an array.');
         }
     });
-
-    // Get the modal and overlay elements
-    const modal = document.getElementById("modal");
-    const overlay = document.getElementById("overlay-results");
-    const modalContent = document.getElementById("modalContent");
-
-    // Get the save button
-    const saveButton = document.getElementById("saveResults");
-
-    // Check if the user is logged in using a hidden PHP variable passed to JavaScript
-    const isLoggedIn = <?php echo json_encode(isset($_SESSION['user_id'])); ?>;
-
-    // Show the modal and overlay when the Save Results button is clicked
-    saveButton.onclick = function() {
-        overlay.style.display = "block"; // Show the darkened background
-        modal.style.display = "block";   // Show the modal
-
-        if (isLoggedIn) {
-            modalContent.innerHTML = `
-            <button class="btn-close" id="closeModal"></button>
-            <h2>Save Product</h2>
-            <p>Enter the product name to save the result:</p>
-            <form id="saveForm" method="POST">
-                <input type="text" id="productName" name="product_name" placeholder="Product Name" required>
-                <input type="hidden" id="jsonData" name="product_data" value='<?php echo htmlspecialchars(json_encode($data), ENT_QUOTES, 'UTF-8'); ?>'>
-                <button type="submit" class="btn-get-started" id="btn-saveprod">Save</button>
-            </form>
-            `;
-
-            //attach the event listener to the dynamically generated form
-            const form = document.getElementById('saveForm');
-            if (form) {
-                form.onsubmit = function(e) {
-                    e.preventDefault(); // Prevent the default form submission behavior
-                    console.log("Form submission triggered");
-
-                    // Get form data
-                    const productName = document.getElementById("productName").value;
-                    const jsonData = document.getElementById("jsonData").value;
-
-                    // Send the data to the server using AJAX
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "save_product.php", true);  // Use POST
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                    xhr.onload = function() {
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-
-                            if (response.status === "success") {
-                                document.getElementById("modalContent").innerHTML = `
-                                    <button class="btn-close" id="closeModal"></button>
-                                    <h2>Success!</h2>
-                                    <p>${response.message}</p>
-                                    <div class="download-container">
-                                        <a href="upload.php" class="btn-get-started">Upload Another</a>
-                                        <a href="manage_products.php" class="btn-get-started">Manage Products</a>
-                                    </div>
-                                `;
-                            } else {
-                                document.getElementById("modalContent").innerHTML = `
-                                    <button class="btn-close" id="closeModal"></button>
-                                    <h2>Error</h2>
-                                    <p>${response.message}</p>
-                                `;
-                            }
-
-                            // Close modal functionality (if needed)
-                            document.getElementById("closeModal").onclick = function() {
-                                overlay.style.display = "none";
-                                modal.style.display = "none";
-                            };
-                        } else if (xhr.status === 403){
-                            const response = JSON.parse(xhr.responseText);
-                            document.getElementById("modalContent").innerHTML = `
-                                    <button class="btn-close" id="closeModal"></button>
-                                    <h2>Limit Reached</h2>
-                                    <p>${response.message}</p>
-                                    <a href="manage_products.php" class="btn-get-started">Manage Products</a>
-                                `;
-
-                            // Close modal functionality (if needed)
-                            document.getElementById("closeModal").onclick = function() {
-                                overlay.style.display = "none";
-                                modal.style.display = "none";
-                            };
-                        }
-                        else {
-                            const response = JSON.parse(xhr.responseText);
-                            document.getElementById("modalContent").innerHTML = `
-                                    <button class="btn-close" id="closeModal"></button>
-                                    <h2>Error</h2>
-                                    <p>${response.message}</p>
-                                `;
-
-                            // Close modal functionality (if needed)
-                            document.getElementById("closeModal").onclick = function() {
-                                overlay.style.display = "none";
-                                modal.style.display = "none";
-                            };
-                        }
-                    };
-
-                    // Send form data
-                    xhr.send("product_name=" + encodeURIComponent(productName) + "&product_data=" + encodeURIComponent(jsonData));
-                };
-                }
-        } else {
-            // If the user is not logged in, show the login prompt
-            modalContent.innerHTML = `
-                <button class="btn-close" id="closeModal"></button>
-                <h2>Not Logged In</h2>
-                <p>You need to log in to save the results.</p>
-                <button class="btn-get-started" id="loginRedirect">Go to Login</button>
-            `;
-        }
-
-        // Close the modal when the Close button is clicked
-        document.getElementById("closeModal").onclick = function() {
-            overlay.style.display = "none";
-            modal.style.display = "none";
-        }
-
-        // Redirect to login.php if the user clicks "Go to Login"
-        const loginButton = document.getElementById("loginRedirect");
-        if (loginButton) {
-            loginButton.onclick = function() {
-                window.location.href = "login.php"; // Redirect to login page
-            }
-        }
-    }
- 
-    // Optional: Close the modal when clicking outside the modal content
-    overlay.onclick = function() {
-        overlay.style.display = "none";
-        modal.style.display = "none";
-    }
 </script>
 <?php
 include('footer.php');

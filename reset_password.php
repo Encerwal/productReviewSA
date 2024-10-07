@@ -1,4 +1,6 @@
 <?php
+$error_message = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $token = $_POST['token'];
     $new_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -23,37 +25,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare($sql);
             $stmt->execute(['token' => $token]);
 
-            // Show a success message and redirect the user back to the login page
-            echo "<div style='text-align: center; padding: 20px;'>";
-            echo "<h2>Password reset successful!</h2>";
-            echo "<p>You will be redirected to the login page in 5 seconds.</p>";
-            echo "</div>";
+            // Show a custom modal with countdown and redirect
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const overlay = document.getElementById('overlay-results');
+                    const modal = document.getElementById('deleteModal');
+                    overlay.style.display = 'block';
+                    modal.style.display = 'block'; // Show the modal
 
-            // Redirect to the login page after 5 seconds
-            header("refresh:5;url=login.php");
-            exit(); // Ensure no further code is executed
+                    const countdownElement = document.getElementById('countdown');
+                    let timeLeft = 5;
+
+                    // Update the countdown every second
+                    const countdownInterval = setInterval(function() {
+                        if (timeLeft <= 0) {
+                            clearInterval(countdownInterval);
+                            window.location.href = 'login.php'; // Redirect to the login page
+                        } else {
+                            countdownElement.innerHTML = timeLeft + ' seconds';
+                            timeLeft -= 1;
+                        }
+                    }, 1000); // 1000 milliseconds = 1 second
+                });
+            </script>";
         } else {
-            echo "Invalid or expired token.";
+            $error_message = "Invalid or expired token.";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $error_message = "Error: " . $e->getMessage();
     }
 }
+include('header.php');
 ?>
+<style>
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
-</head>
-<body>
-    <h2>Reset Password</h2>
-    <form method="post">
-        <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
-        <input type="password" name="password" placeholder="Enter your new password" required>
-        <button type="submit">Reset Password</button>
-    </form>
-</body>
-</html>
+</style>
+
+<main class="main">
+    <section id="hero" class="hero section">
+        <div class="container" id="container-login">
+            <h2>Reset Password</h2>
+            <!-- Display error message if it exists -->
+            <?php if (!empty($error_message)): ?>
+                <div class="error"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+            <form method="post">
+                <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
+                <input type="password" name="password" placeholder="Enter your new password" required>
+                <button class="btn-get-started" id="btn-analyze"  type="submit">Reset</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="overlay-results" class="overlay-results"></div>
+    <div id="deleteModal" class="deleteModal">
+        <div class="modal-content" id="modalContent">
+            <h2>Password reset successful!</h2>
+            <p>You will be redirected to the login page in <span id="countdown">5 seconds</span>.</p>
+        </div>
+    </div>
+</main> 
+<?php
+include('footer.php');
+?>

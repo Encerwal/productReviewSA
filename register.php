@@ -1,5 +1,5 @@
 <?php
-include('header.php');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];  // Capture email input
@@ -8,14 +8,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
 
-        // Check if the email already exists in the database
-        $sql = "SELECT * FROM users WHERE email = :email";
+        // Check if the username or email already exists in the database
+        $sql = "SELECT * FROM users WHERE email = :email OR username = :username";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(['email' => $email]);
+        $stmt->execute(['email' => $email, 'username' => $username]);
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($existingUser) {
-            echo "An account with this email already exists.";
+            if ($existingUser['email'] === $email) {
+                $error_message = "An account with this email already exists.";
+            } elseif ($existingUser['username'] === $username) {
+                $error_message = "An account with this username already exists.";
+            }
         } else {
             // Insert new user data into the database
             $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
@@ -27,12 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $error_message = "Error: " . $e->getMessage();
     }
 }
-?>
-    <style>
 
+include('header.php');
+?>
+
+    <style>
         #container-login {
             background-color: #fff;
             padding: 20px;
@@ -52,21 +58,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-      
-        .error {
-            color: red;
-            text-align: center;
-        }
-        .success {
-            color: green;
-            text-align: center;
-        }
     </style>
 
 
 <section id="hero" class="hero section">
     <div class="container" id="container-login">
         <h2>Register</h2>
+        <?php if (!empty($error_message)): ?>
+            <div class="error"><?php echo $error_message; ?></div>
+        <?php endif; ?>
         <form method="post">
             <input type="email" name="email" placeholder="Email" required> 
             <input type="text" name="username" placeholder="Username" required>
