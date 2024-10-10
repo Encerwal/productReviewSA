@@ -63,7 +63,7 @@
               <li><a href="upload.php"><p style ="margin-bottom:-5px;">&nbsp;&nbsp;&nbsp;CSV File</p></a></li>
             </div>
             <li><a href="index.php#team">Team</a></li>
-            <li><a href="login.php">Team</a></li>
+            <li><a href="login.php">Sign in</a></li>
           <?php else: ?>
             <li><a href="index.php#hero">Home</a></li>
             <li> <a href="" id="servicesToggle">Services  <i class="bi bi-chevron-down toggle-dropdown"></i></a></li>
