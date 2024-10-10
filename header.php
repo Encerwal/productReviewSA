@@ -1,7 +1,3 @@
-<?php
-require_once 'auth.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -58,7 +54,7 @@ require_once 'auth.php';
           <div id="overlay"></div>
           <!-- Navigation Menu (MOBILE) -->
           <ul id="menu">
-          <?php if (!isLoggedIn()): ?>
+          <?php if (!isset($_SESSION['user_id'])): ?>
             <li><a href="index.php#hero">Home</a></li>
             <li><a href="index.php#about">About</a></li>
             <li> <a href="" id="servicesToggle">Services  <i class="bi bi-chevron-down toggle-dropdown"></i></a></li>
@@ -83,7 +79,7 @@ require_once 'auth.php';
         </div>
       </nav>
       <!-- Check if the user is logged in -->
-      <?php if (isLoggedIn()): ?>
+      <?php if (isset($_SESSION['user_id'])): ?>
         <!-- User is logged in, show profile picture with dropdown -->
         <div class="profile-dropdown">
             <img src="assets/img/profile.png" alt="Profile" class="profile-pic" onclick="toggleProfileDropdown()">
