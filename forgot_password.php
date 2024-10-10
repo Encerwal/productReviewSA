@@ -1,10 +1,8 @@
 <?php
-include('header.php');
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Load Composer's autoloader (if you installed via Composer)
+// Load Composer's autoloader
 require 'vendor/autoload.php';
 // UNCOMMENT THIS FOR LOCAL PHP MAILER
 //$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -75,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Error: " . $e->getMessage();
     }
 }
+include('header.php');
 ?>
 
 <style>

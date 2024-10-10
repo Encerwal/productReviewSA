@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     const overlay = document.getElementById('overlay-results');
                     const modal = document.getElementById('deleteModal');
                     overlay.style.display = 'block';
-                    modal.style.display = 'block'; // Show the modal
+                    modal.style.display = 'block';
 
                     const countdownElement = document.getElementById('countdown');
                     let timeLeft = 5;
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     const countdownInterval = setInterval(function() {
                         if (timeLeft <= 0) {
                             clearInterval(countdownInterval);
-                            window.location.href = 'login.php'; // Redirect to the login page
+                            window.location.href = 'login.php';
                         } else {
                             countdownElement.innerHTML = timeLeft + ' seconds';
                             timeLeft -= 1;
