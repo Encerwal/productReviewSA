@@ -1,4 +1,5 @@
 <?php
+include('header.php');
 $error_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Error: " . $e->getMessage();
     }
 }
-include('header.php');
+
 ?>
 <style>
     h2 {
