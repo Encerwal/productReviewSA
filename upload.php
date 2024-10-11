@@ -1,4 +1,5 @@
 <?php
+session_start();
 ob_start();
 include('header.php');
 // Check if the form was submitted
