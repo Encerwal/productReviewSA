@@ -52,8 +52,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
 </section>
 </main>
-
 <?php
 include('footer.php');
 ob_end_flush();
 ?>
+<script>
+  //FOR SINGLE_INPUT.PHP
+$("a#btn-analyze").click(function(){
+  $("#sentiment-form").submit();
+  return false;
+  });
+
+  // JavaScript to show loader and hide previous results when form is submitted
+  document.getElementById('sentiment-form').addEventListener('submit', function() {
+      // Show loader
+      document.getElementById('loader-container').style.display = 'flex';
+
+      // Hide previous results
+      document.getElementById('result-container').style.display = 'none';
+  });
+</script>

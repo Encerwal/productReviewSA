@@ -1,3 +1,4 @@
+
 (function() {
   "use strict";
 
@@ -15,50 +16,11 @@
   window.addEventListener('load', toggleScrolled);
 
   /**
-   * Scroll top button
-   */
-  let scrollTop = document.querySelector('.scroll-top');
-
-  function toggleScrollTop() {
-    if (scrollTop) {
-      window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
-    }
-  }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-
-  window.addEventListener('load', toggleScrollTop);
-  document.addEventListener('scroll', toggleScrollTop);
-
-  /**
-   * Animation on scroll function and init
-   */
-  function aosInit() {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
-  }
-  window.addEventListener('load', aosInit);
-
-  /**
    * Initiate glightbox
    */
   const glightbox = GLightbox({
     selector: '.glightbox'
   });
-
-  /**
-   * Initiate Pure Counter
-   */
-  new PureCounter();
 
   /**
    * Frequently Asked Questions Toggle
@@ -202,20 +164,5 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 });
-
-//FOR SINGLE_INPUT.PHP
-$("a#btn-analyze").click(function(){
-  $("#sentiment-form").submit();
-  return false;
-  });
-
-  // JavaScript to show loader and hide previous results when form is submitted
-  document.getElementById('sentiment-form').addEventListener('submit', function() {
-      // Show loader
-      document.getElementById('loader-container').style.display = 'flex';
-
-      // Hide previous results
-      document.getElementById('result-container').style.display = 'none';
-  });
 
 })();

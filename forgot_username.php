@@ -67,14 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <style>
-#container-login {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
-    
-}
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -100,6 +92,7 @@ input[type="email"] {
 
 <section id="hero" class="hero section">
     <div class="container" id="container-login">
+
         <h2>Forgot Username</h2>
         <!-- Display message if it exists -->
         <?php if (!empty($error_message)): ?>
@@ -109,7 +102,10 @@ input[type="email"] {
         <?php endif; ?>
         <form method="post">
             <input type="email" name="email" placeholder="Enter your email" required>
-            <button class="btn-get-started" id="btn-analyze" type="submit">Retrieve Username</button>
+            <div class="download-container">
+                <a href="login.php" id="retrieve-cancel" class="btn-get-started">Cancel</a>
+                <button class="btn-get-started" id="retrieve-username" type="submit">Retrieve</button>
+            </div>
         </form>
     </div>      
 </section>

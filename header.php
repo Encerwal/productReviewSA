@@ -40,7 +40,7 @@ if (session_status() == PHP_SESSION_NONE) {
       <!-- Navigation Menu -->
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.php#hero" class="active">Home<br></a></li>
+          <li><a href="index.php#hero">Home<br></a></li>
           <li><a href="index.php#about">About</a></li>
           <li class="dropdown"><a href="index.php#values"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
