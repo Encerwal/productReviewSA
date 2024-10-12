@@ -106,18 +106,27 @@ if (session_status() == PHP_SESSION_NONE) {
 // JavaScript function to toggle the profile dropdown visibility
 function toggleProfileDropdown() {
   var dropdown = document.getElementById("profileDropdown");
-  if (dropdown.style.display === "none") {
+  if (dropdown) {
+    if (dropdown.style.display === "none") {
       dropdown.style.display = "block";
-  } else {
+    } else {
       dropdown.style.display = "none";
+    }
+  } else {
+    console.error("Element with ID 'profileDropdown' not found.");
   }
 }
 
 function removeDropdown() {
   var dropdown = document.getElementById("profileDropdown");
-  if (dropdown.style.display === "block") {
+  if (dropdown) {
+    if (dropdown.style.display === "block") {
       dropdown.style.display = "none";
+    }
+  } else {
+    console.error("Element with ID 'profileDropdown' not found.");
   }
 }
+
 
 </script>
