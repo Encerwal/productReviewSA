@@ -127,6 +127,4 @@ function removeDropdown() {
     console.error("Element with ID 'profileDropdown' not found.");
   }
 }
-
-
 </script>

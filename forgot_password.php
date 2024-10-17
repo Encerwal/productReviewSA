@@ -42,21 +42,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             try {
                 // Server settings
-                $mail->isSMTP();                                        // Set mailer to use SMTP
-                $mail->Host       = 'smtp.gmail.com';                   // Specify SMTP server
-                $mail->SMTPAuth   = true;                               // Enable SMTP authentication
-                $mail->Username   = $_ENV['SMTP_USERNAME'];          // Your Gmail email
-                $mail->Password   = $_ENV['SMTP_PASSWORD'];            // Your Gmail password or app password
-                $mail->SMTPSecure = 'tls';                              // Enable TLS encryption
-                $mail->Port       = 587;                                // TCP port for TLS
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = $_ENV['SMTP_USERNAME'];
+                $mail->Password   = $_ENV['SMTP_PASSWORD'];
+                $mail->SMTPSecure = 'tls';
+                $mail->Port       = 587;
                 
 
                 // Recipients
                 $mail->setFrom($_ENV['SMTP_USERNAME'], 'Emoticart');
-                $mail->addAddress($email);                              // Add recipient
+                $mail->addAddress($email);
 
                 // Content
-                $mail->isHTML(true);                                    // Set email format to HTML
+                $mail->isHTML(true);
                 $mail->Subject = 'Password Reset Request';
                 $mail->Body    = "Click this link to reset your password: <a href='" . $reset_link . "'>" . $reset_link . "</a>";
 
@@ -90,14 +90,6 @@ input[type="email"] {
     border-radius: 5px;
 }
 
-.error {
-    color: red;
-    text-align: center;
-}
-.success {
-    color: #444444;
-    text-align: center;
-}
 </style>
 
 
@@ -110,6 +102,7 @@ input[type="email"] {
         <?php elseif (!empty($message)): ?>
             <div class="success"><?php echo $message; ?></div>
         <?php endif; ?>
+        
         <form method="post" action="">
             <input type="email" name="email" placeholder="Enter your email" required>
             <div class="download-container">

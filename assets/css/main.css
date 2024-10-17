@@ -2021,3 +2021,15 @@ td:nth-child(3) {
 .delete-button.show {
   display: inline-block;
 }
+
+.alert-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.alert {
+  margin: 10px;
+  max-width: 500px;
+  width: 100%;
+}

@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db_password = $_ENV['DATABASE_PASSWORD'];
 
         // Establish the database connection
+        #$pdo = new PDO("pgsql:host=localhost;port=5432;dbname=emoticart;user=postgres;password=102475");
         $pdo = new PDO("pgsql:host=$host;port=5432;dbname=emoticart;user=emoticart;password=$db_password");
 
         // Prepare a statement to fetch user details based on the username
@@ -28,15 +29,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verify the user exists and the password is correct
+        // Verify the user exists, the password is correct, and email is confirmed
         if ($user && password_verify($password, $user['password'])) {
-            // If the user is found and the password is correct, start a session
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+            if ($user['email_confirmed']) {
+                // If the user is found, the password is correct, and email is confirmed, start a session
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
 
-            // Redirect the user to manage_products.php after successful login
-            header("Location: manage_products.php");
-            exit(); 
+                // Redirect the user to manage_products.php after successful login
+                header("Location: manage_products.php");
+                exit();
+            } else {
+                $error_message = "Please confirm your email before logging in. <a href='resend_confirmation.php'> Click here to Confirm email.</a>";
+
+            }
         } else {
             $error_message = "Invalid username or password!";
         }
@@ -44,15 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Error: " . htmlspecialchars($e->getMessage());
     }
 }
-?>
-
-<?php
-// Include the header after processing logic
 include('header.php');
 ?>
 
 <style>
-
     h2 {
         text-align: center;
         margin-bottom: 20px;
@@ -63,16 +64,6 @@ include('header.php');
         margin: 10px 0;
         border: 1px solid #ddd;
         border-radius: 5px;
-    }
-    .alert {
-        margin: 10px;
-        max-width: 500px;
-        width:100%;
-    }
-    .alert-wrapper {
-        display: flex;
-        justify-content: center;
-        padding-bottom: 20px;
     }
 </style>
 
@@ -118,7 +109,6 @@ include('header.php');
 </section>
 
 <?php
-// Include the footer
 include('footer.php');
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

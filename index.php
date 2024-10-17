@@ -241,12 +241,10 @@ include('header.php');
 
     <!-- Team Section -->
     <section id="team" class="team section">
-
-      <!-- Section Title -->
       <div class="container section-title">
         <h2>Team</h2>
         <p>Our hard working team</p>
-      </div><!-- End Section Title -->
+      </div>
 
       <div class="container">
         <div class="row gy-4">
@@ -265,7 +263,7 @@ include('header.php');
                 <p>Unlock the power of customer opinions and drive your business forward. Our sentiment analysis tools provide you with clear, actionable insights from product reviews, helping you make informed decisions and exceed customer expectations.</p>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
@@ -282,7 +280,7 @@ include('header.php');
                 <p>Don’t let valuable customer feedback go untapped. With our advanced sentiment analysis, turn reviews into strategic advantages. Identify trends, understand customer needs, and elevate your product offerings to new heights.</p>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
@@ -299,7 +297,7 @@ include('header.php');
                 <p>In the fast-paced e-commerce world, staying ahead is key. Our sentiment analysis services equip you with precise data to understand market sentiments, allowing you to adapt quickly and stay competitive in your industry.</p>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="team-member">
@@ -316,10 +314,10 @@ include('header.php');
                 <p>Embrace the full potential of customer reviews. Our platform transforms feedback into valuable insights, empowering you to refine your products, enhance customer satisfaction, and build a brand that resonates with your audience.</p>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
         </div>
       </div>
-    </section><!-- /Team Section -->
+    </section>
   </main>
 
 <?php

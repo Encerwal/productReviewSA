@@ -21,27 +21,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_ENV['DATABASE_PASSWORD'];
 
         $pdo = new PDO("pgsql:host=$host;port=5432;dbname=emoticart;user=emoticart;password=$password");
-        // Check if the email exists in the database
         $sql = "SELECT username FROM users WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
-        $usernames = $stmt->fetchAll(PDO::FETCH_COLUMN); // Fetch all usernames associated with the email
-
+        $usernames = $stmt->fetchAll(PDO::FETCH_COLUMN); 
         if ($usernames) {
             // Prepare the list of usernames
             $username_list = implode(", ", $usernames);
 
-            // Send the username(s) via email using PHPMailer
+            // Send the username via email using PHPMailer
             $mail = new PHPMailer(true);
             try {
                 // Server settings
-                $mail->isSMTP();                                        // Set mailer to use SMTP
-                $mail->Host       = 'smtp.gmail.com';                   // Specify SMTP server
-                $mail->SMTPAuth   = true;                               // Enable SMTP authentication
-                $mail->Username   = $_ENV['SMTP_USERNAME'];             // Your Gmail email
-                $mail->Password   = $_ENV['SMTP_PASSWORD'];             // Your Gmail password or app password
-                $mail->SMTPSecure = 'tls';                              // Enable TLS encryption
-                $mail->Port       = 587;                                // TCP port for TLS
+                $mail->isSMTP();                                        
+                $mail->Host       = 'smtp.gmail.com';                  
+                $mail->SMTPAuth   = true;                              
+                $mail->Username   = $_ENV['SMTP_USERNAME'];             
+                $mail->Password   = $_ENV['SMTP_PASSWORD'];            
+                $mail->SMTPSecure = 'tls';                             
+                $mail->Port       = 587;                                
 
                 // Recipients
                 $mail->setFrom($_ENV['SMTP_USERNAME'], 'Emoticart');
@@ -94,7 +92,6 @@ input[type="email"] {
     <div class="container" id="container-login">
 
         <h2>Forgot Username</h2>
-        <!-- Display message if it exists -->
         <?php if (!empty($error_message)): ?>
             <div class="error"><?php echo $error_message; ?></div>
         <?php elseif (!empty($message)): ?>
